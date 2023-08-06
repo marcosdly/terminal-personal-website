@@ -1,0 +1,19 @@
+@keyframes nickname-to-header {
+  to {
+    filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0));
+    height: 3rem;
+  }
+}
+
+@keyframes nickname-container-to-header {
+  to {
+    height: inherit;
+    width: inherit;
+  }
+}
+
+@keyframes main-footer-appearing {
+  to {
+    transform: translateY(0);
+  }
+}

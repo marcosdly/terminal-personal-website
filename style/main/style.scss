@@ -1,0 +1,121 @@
+:root {
+  font-size: 16px;
+  --nickname-base-duration: 0.5s;
+  --nickname-base-delay: 1.5s;
+  --main-header-height: 5rem;
+  --main-footer-height: 3rem;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+@mixin nickname-animation(
+  $name,
+  $duration: var(--nickname-base-duration),
+  $delay: var(--nickname-base-delay)
+) {
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-iteration-count: 1;
+  animation-delay: $delay;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+
+body {
+  background-color: #d6d6d6;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+a:active,
+a:link,
+a:visited,
+a:hover {
+  color: unset;
+  text-decoration: none;
+}
+
+.main-header {
+  height: var(--main-header-height);
+  width: 100vw;
+}
+.nickname {
+  height: 12.5rem;
+  filter: drop-shadow(0px 0px 70px rgba(0, 0, 0, 0.4));
+  @include nickname-animation(nickname-to-header);
+}
+
+.nickname-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  @include nickname-animation(nickname-container-to-header);
+}
+
+.main-footer {
+  position: absolute;
+  bottom: 0;
+  height: var(--main-footer-height);
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  transform: translateY(var(--main-footer-height));
+  @include nickname-animation(main-footer-appearing);
+}
+
+.main-footer div {
+  display: inline-block;
+}
+
+.main-footer .title-container {
+  margin-right: auto;
+  margin-left: 1rem;
+}
+
+.main-footer .title {
+  font-size: 1.5rem;
+  font-family: "Lexend", sans-serif;
+  font-weight: 600;
+  color: #444;
+}
+
+.main-footer .links-container {
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+.main-nav {
+  // width: 100vw;
+  height: calc(100vh - var(--main-footer-height) - var(--main-header-height));
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main-nav a {
+  margin-left: 6rem;
+  font-size: 6rem;
+  line-height: 5rem;
+  margin-bottom: 2rem;
+}
+
+.main-nav a:last-child {
+  margin-bottom: 0;
+}
+
+.font-sans {
+  font-family: "Lexend", sans-serif;
+  font-weight: 400;
+}
+
+.font-mono {
+  font-family: "DM Mono", monospace;
+  font-weight: 500;
+}

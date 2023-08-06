@@ -30,18 +30,28 @@ class NavLinkAnimationState {
 async function animateMainNavLink(elem, state) {
   // TODO cover links their animation wont start until nickname animation ends
   const sansText = state.sans.textContent,
-    monoText = state.mono.textContent;
+    monoText = state.mono.textContent,
+    mouseIsOver = elem.getAttribute("mouseisover"),
+    originalText = elem.getAttribute("originaltext");
 
-  if (elem.getAttribute("mouseisover") === "true") {
-    if (monoText.startsWith(elem.getAttribute("originaltext"))) {
-      if (monoText === elem.getAttribute("originaltext"))
-        state.mono.textContent += "(";
-      else if (monoText.endsWith("(")) state.mono.textContent += ")";
+  if (mouseIsOver === "true") {
+    if (monoText.endsWith(")")) return;
+    if (monoText.startsWith(originalText)) {
+      state.mono.textContent += monoText === originalText ? "(" : ")";
       return;
     }
     state.mono.textContent += sansText.at(0);
     state.sans.textContent = sansText.substring(1);
+    return;
   }
+
+  if (monoText === "") return;
+  if ("()".includes(monoText.at(-1))) {
+    state.mono.textContent = monoText.substring(0, monoText.length - 1);
+    return;
+  }
+  state.sans.textContent = monoText.at(-1) + state.sans.textContent;
+  state.mono.textContent = monoText.substring(0, monoText.length - 1);
 }
 
 for (const elem of document.querySelectorAll(".main-nav a")) {

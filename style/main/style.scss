@@ -4,6 +4,7 @@
   --nickname-base-delay: 1.5s;
   --main-header-height: 5rem;
   --main-footer-height: 3rem;
+  --monospace-font: "DM Mono", monospace;
 }
 
 * {
@@ -92,7 +93,6 @@ a:hover {
 }
 
 .main-nav {
-  // width: 100vw;
   height: calc(100vh - var(--main-footer-height) - var(--main-header-height));
   display: inline-flex;
   flex-direction: column;
@@ -116,6 +116,15 @@ a:hover {
 }
 
 .font-mono {
-  font-family: "DM Mono", monospace;
+  font-family: var(--monospace-font);
   font-weight: 500;
+  color: #444;
+}
+.parenthesis {
+  font-family: var(--monospace-font);
+  font-weight: 500;
+}
+
+.nav-link-code-syntax {
+  color: #427b58;
 }

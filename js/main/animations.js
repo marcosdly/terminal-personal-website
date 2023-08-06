@@ -2,13 +2,11 @@
 
 function animateNickname() {
   document.querySelector(".nickname").style["animation-play-state"] = "running";
-  document.querySelector(".nickname-container").style["animation-play-state"] =
-    "running";
+  document.querySelector(".nickname-container").style["animation-play-state"] = "running";
 }
 
 function animateFooter() {
-  document.querySelector(".main-footer").style["animation-play-state"] =
-    "running";
+  document.querySelector(".main-footer").style["animation-play-state"] = "running";
 }
 
 addEventListener("load", (event) => {
@@ -17,27 +15,38 @@ addEventListener("load", (event) => {
 });
 
 class NavLinkAnimationState {
+  /**
+   *
+   * @param {Element} elem
+   */
   constructor(elem) {
+    /** @type {Element} */
     this.sans = elem.querySelector(".font-sans");
+    /** @type {Element} */
     this.mono = elem.querySelector(".font-mono");
+    /** @type {Element} */
+    this.parenthesis = elem.querySelector(".parenthesis");
   }
 }
 
 /**
- * @param {HTMLElement} elem
+ * @param {Element} elem
  * @param {NavLinkAnimationState} state
  */
 async function animateMainNavLink(elem, state) {
   // TODO cover links their animation wont start until nickname animation ends
   const sansText = state.sans.textContent,
     monoText = state.mono.textContent,
+    parenthesisText = state.parenthesis.textContent,
     mouseIsOver = elem.getAttribute("mouseisover"),
     originalText = elem.getAttribute("originaltext");
 
   if (mouseIsOver === "true") {
-    if (monoText.endsWith(")")) return;
-    if (monoText.startsWith(originalText)) {
-      state.mono.textContent += monoText === originalText ? "(" : ")";
+    if (parenthesisText.endsWith(")")) return;
+    if (parenthesisText === "" && monoText === originalText)
+      state.mono.classList.add("nav-link-code-syntax");
+    if (monoText === originalText) {
+      state.parenthesis.textContent += parenthesisText === "(" ? ")" : "(";
       return;
     }
     state.mono.textContent += sansText.at(0);
@@ -45,11 +54,13 @@ async function animateMainNavLink(elem, state) {
     return;
   }
 
-  if (monoText === "") return;
-  if ("()".includes(monoText.at(-1))) {
-    state.mono.textContent = monoText.substring(0, monoText.length - 1);
+  if (parenthesisText != "") {
+    state.parenthesis.textContent = parenthesisText.substring(0, parenthesisText.length - 1);
     return;
   }
+  if (parenthesisText === "" && monoText === originalText)
+    state.mono.classList.remove("nav-link-code-syntax");
+  if (monoText === "") return;
   state.sans.textContent = monoText.at(-1) + state.sans.textContent;
   state.mono.textContent = monoText.substring(0, monoText.length - 1);
 }

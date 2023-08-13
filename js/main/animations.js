@@ -39,17 +39,19 @@ async function animateMainNavLink(elem, state) {
     monoText = state.mono.textContent,
     parenthesisText = state.parenthesis.textContent,
     mouseIsOver = elem.getAttribute("mouseisover"),
-    originalText = elem.getAttribute("originaltext");
+    originalText = elem.getAttribute("originaltext"),
+    originalTextFormatted = originalText.replaceAll(" ", "_"),
+    colorClass = elem.getAttribute("colorclass");
 
   if (mouseIsOver === "true") {
     if (parenthesisText.endsWith(")")) return;
-    if (parenthesisText === "" && monoText === originalText)
-      state.mono.classList.add("nav-link-code-syntax");
-    if (monoText === originalText) {
+    if (parenthesisText === "" && monoText === originalTextFormatted)
+      state.mono.classList.add(colorClass);
+    if (monoText === originalTextFormatted) {
       state.parenthesis.textContent += parenthesisText === "(" ? ")" : "(";
       return;
     }
-    state.mono.textContent += sansText.at(0);
+    state.mono.textContent += sansText.at(0) === " " ? "_" : sansText.at(0);
     state.sans.textContent = sansText.substring(1);
     return;
   }
@@ -58,10 +60,11 @@ async function animateMainNavLink(elem, state) {
     state.parenthesis.textContent = parenthesisText.substring(0, parenthesisText.length - 1);
     return;
   }
-  if (parenthesisText === "" && monoText === originalText)
-    state.mono.classList.remove("nav-link-code-syntax");
+  if (parenthesisText === "" && monoText === originalTextFormatted)
+    state.mono.classList.remove(colorClass);
   if (monoText === "") return;
-  state.sans.textContent = monoText.at(-1) + state.sans.textContent;
+  const lastChar = monoText.at(-1) === "_" ? " " : monoText.at(-1);
+  state.sans.textContent = lastChar + state.sans.textContent;
   state.mono.textContent = monoText.substring(0, monoText.length - 1);
 }
 

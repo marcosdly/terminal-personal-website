@@ -148,3 +148,23 @@ a:hover {
 .gruvbox-red {
   color: #9d0006;
 }
+
+.links-container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.links-container a {
+  display: inline-block;
+  height: 1.5rem;
+  margin-right: 0.3rem;
+}
+
+.links-container a:last-child {
+  margin-right: 0;
+}
+
+.links-icon {
+  height: inherit;
+}

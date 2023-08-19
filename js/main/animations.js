@@ -68,7 +68,9 @@ async function animateMainNavLink(elem, state) {
   state.mono.textContent = monoText.substring(0, monoText.length - 1);
 }
 
-for (const elem of document.querySelectorAll(".main-nav a")) {
+const mainNavLinks = document.querySelectorAll(".main-nav a");
+
+for (const elem of mainNavLinks) {
   (async function () {
     const state = new NavLinkAnimationState(elem);
     while (true) {
@@ -84,4 +86,20 @@ for (const elem of document.querySelectorAll(".main-nav a")) {
   elem.addEventListener("mouseout", async (event) => {
     event.currentTarget.setAttribute("mouseisover", "false");
   });
+
+  elem.addEventListener("click", async (event) => {
+    const intersection = [];
+    mainNavLinks.forEach((x) => {
+      if (!Object.is(x, elem)) intersection.push(x);
+    });
+    for (const el of intersection) el.classList.add("main-nav-link-hide");
+    event.currentTarget.classList.add("main-nav-link-clicked");
+  });
 }
+
+addEventListener("animationend", (event) => {
+  if (event.animationName === "main-nav-link-hide") {
+    event.target.style.display = "none";
+    document.querySelector(".main-nav-link-clicked").classList.remove("main-nav-link-clicked");
+  }
+});

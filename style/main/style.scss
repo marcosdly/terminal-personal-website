@@ -4,6 +4,7 @@
   --nickname-base-delay: 1.5s;
   --main-header-height: 5rem;
   --main-footer-height: 3rem;
+  --main-nav-link-hide-speed: 0.5s;
   --monospace-font: "DM Mono", monospace;
 }
 
@@ -24,6 +25,17 @@
   animation-timing-function: ease;
   animation-fill-mode: forwards;
   animation-play-state: paused;
+}
+
+@mixin basic-animation($name, $duration, $delay: 0s) {
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-iteration-count: 1;
+  animation-delay: $delay;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  animation-direction: normal;
+  animation-play-state: running;
 }
 
 body {
@@ -167,4 +179,12 @@ a:hover {
 
 .links-icon {
   height: inherit;
+}
+
+.main-nav-link-clicked {
+  position: fixed;
+}
+
+.main-nav-link-hide {
+  @include basic-animation(main-nav-link-hide, var(--main-nav-link-hide-speed));
 }

@@ -32,7 +32,10 @@ class NavLinkAnimationState {
     this.parenthesis = elem.querySelector(".parenthesis");
   }
 
+  /** @type {boolean} */
   static keepRunning = true;
+  /** @type {Element | null} */
+  static elementClicked = null;
 }
 
 /**
@@ -92,6 +95,7 @@ async function animateTerminalCommandText() {
  */
 async function animateTerminalText(text) {
   const terminalElement = document.querySelector(".terminal"),
+    textContainer = document.querySelector(".terminal-text-container"),
     target = document
       .querySelector(".terminal-animation-build-target")
       .textContent.toLocaleLowerCase()
@@ -99,11 +103,15 @@ async function animateTerminalText(text) {
   for (const line of text) {
     const p = document.createElement("p");
     p.innerText = line.replaceAll("{target}", target);
-    terminalElement.appendChild(p);
-    terminalElement.scrollTop = terminalElement.scrollHeight;
+    textContainer.appendChild(p);
+    textContainer.scrollTop = terminalElement.scrollHeight;
     if (line.startsWith(":: ")) await new Promise((res) => setTimeout(res, 50));
     else await new Promise((res) => setTimeout(res, 500));
   }
+
+  document.querySelector(".loading-redirect").style.display = "initial";
+  if (NavLinkAnimationState.elementClicked)
+    window.location.assign(NavLinkAnimationState.elementClicked.href);
 }
 
 const mainNavLinks = document.querySelectorAll(".main-nav a");
@@ -127,7 +135,9 @@ for (const elem of mainNavLinks) {
   });
 
   elem.addEventListener("click", async (event) => {
+    event.preventDefault();
     event.currentTarget.setAttribute("wasclicked", "true");
+    NavLinkAnimationState.elementClicked = event.currentTarget;
     document.querySelector(".terminal-animation-build-target").textContent = event.currentTarget
       .getAttribute("originalText")
       .toLowerCase()

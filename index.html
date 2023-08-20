@@ -23,7 +23,7 @@
       </div>
       <nav class="main-nav">
         <a
-          href="#about"
+          href="/about"
           originaltext="About"
           mouseisover="false"
           colorclass="gruvbox-aqua"
@@ -33,7 +33,7 @@
           ><span class="parenthesis"></span>
         </a>
         <a
-          href="#resume"
+          href="/resume"
           originaltext="Resume"
           mouseisover="false"
           colorclass="gruvbox-yellow"
@@ -43,7 +43,7 @@
           ><span class="parenthesis"></span>
         </a>
         <a
-          href="#maisdemim"
+          href="/maisdemim"
           originaltext="Mais de Mim"
           mouseisover="false"
           colorclass="gruvbox-purple"
@@ -53,11 +53,19 @@
           ><span class="parenthesis"></span>
         </a>
         <div class="terminal">
-          <p class="terminal-cli-command" style="display: none">
-            <span class="gruvbox-aqua-dark">λ</span> › make build TARGET=<span
-              class="terminal-animation-build-target"
-            ></span>
-          </p>
+          <img
+            src="public/loading-page.svg"
+            alt="Page redirect loading icon"
+            class="loading-redirect"
+            style="display: none"
+          />
+          <div class="terminal-text-container">
+            <p class="terminal-cli-command" style="display: none">
+              <span class="gruvbox-aqua-dark">λ</span> › make build TARGET=<span
+                class="terminal-animation-build-target"
+              ></span>
+            </p>
+          </div>
         </div>
       </nav>
     </header>

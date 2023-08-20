@@ -191,10 +191,8 @@ a:hover {
 }
 
 .terminal {
-  width: 0;
-  height: 0;
-  padding-left: 0.3rem;
-  padding-top: 0.3rem;
+  width: 0vw;
+  height: 0vh;
   margin-left: var(--main-nav-link-leftmargin);
   flex-shrink: 0;
   border-radius: 0rem;
@@ -205,6 +203,12 @@ a:hover {
   font-family: var(--monospace-font);
   font-size: 11pt;
   color: #fbf1c7;
+  position: relative;
+}
+
+.terminal-text-container {
+  width: inherit;
+  height: inherit;
   overflow: hidden;
 }
 
@@ -219,4 +223,14 @@ a:hover {
 .terminal-cli-command-animate {
   display: block;
   @include basic-animation(terminal-cli-command-animate, 0.2s);
+}
+
+.loading-redirect {
+  position: absolute;
+  right: 0.3rem;
+  top: 0.3rem;
+  width: 1.5rem;
+  /* See https://stackoverflow.com/a/53336754/15493645 */
+  /* Equivalent to #d6d6d6 */
+  filter: invert(85%) sepia(19%) saturate(16%) hue-rotate(337deg) brightness(94%) contrast(100%);
 }

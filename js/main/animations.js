@@ -27,6 +27,8 @@ class NavLinkAnimationState {
     /** @type {Element} */
     this.parenthesis = elem.querySelector(".parenthesis");
   }
+
+  static keepRunning = true;
 }
 
 /**
@@ -44,7 +46,10 @@ async function animateMainNavLink(elem, state) {
     colorClass = elem.getAttribute("colorclass"),
     wasClicked = elem.getAttribute("wasclicked");
 
-  if (wasClicked === "true" && monoText === originalText && parenthesisText === "()") return;
+  if (wasClicked === "true" && monoText === originalText && parenthesisText === "()") {
+    NavLinkAnimationState.keepRunning = false;
+    return;
+  }
 
   if (mouseIsOver === "true" || wasClicked === "true") {
     if (parenthesisText.endsWith(")")) return;
@@ -100,6 +105,7 @@ for (const elem of mainNavLinks) {
   (async function () {
     const state = new NavLinkAnimationState(elem);
     while (true) {
+      if (!NavLinkAnimationState.keepRunning) break;
       await animateMainNavLink(elem, state);
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
@@ -134,7 +140,7 @@ for (const elem of mainNavLinks) {
 addEventListener("animationend", (event) => {
   if (event.animationName === "main-nav-link-hide") {
     event.target.style.display = "none";
-    document.querySelector(".main-nav-link-clicked").classList.remove("main-nav-link-clicked");
+    // document.querySelector(".main-nav-link-clicked").classList.remove("main-nav-link-clicked");
   } else if (event.animationName === "terminal-showing") {
     animateTerminalCommandText();
   } else if (event.animationName === "terminal-cli-command-animate") {

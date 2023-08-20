@@ -6,6 +6,7 @@
   --main-footer-height: 3rem;
   --main-nav-link-hide-speed: 0.5s;
   --monospace-font: "DM Mono", monospace;
+  --main-nav-link-leftmargin: 6rem;
 }
 
 * {
@@ -141,6 +142,10 @@ a:hover {
   color: #427b58;
 }
 
+.gruvbox-aqua-dark {
+  color: #8ec07c;
+}
+
 .gruvbox-blue {
   color: #076678;
 }
@@ -187,4 +192,35 @@ a:hover {
 
 .main-nav-link-hide {
   @include basic-animation(main-nav-link-hide, var(--main-nav-link-hide-speed));
+}
+
+.terminal {
+  width: 0;
+  height: 0;
+  padding-left: 0.3rem;
+  padding-top: 0.3rem;
+  margin-left: var(--main-nav-link-leftmargin);
+  flex-shrink: 0;
+  border-radius: 0rem;
+  border-style: solid;
+  border-color: #000;
+  border-width: 0;
+  background: rgba(28, 28, 28, 0.85);
+  font-family: var(--monospace-font);
+  font-size: 11pt;
+  color: #fbf1c7;
+  overflow: hidden;
+}
+
+.terminal-animate {
+  @include basic-animation(terminal-showing, 0.5s, var(--main-nav-link-hide-speed));
+}
+
+.terminal-cli-command {
+  transform: scale(0);
+}
+
+.terminal-cli-command-animate {
+  display: block;
+  @include basic-animation(terminal-cli-command-animate, 0.2s);
 }

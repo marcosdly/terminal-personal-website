@@ -27,3 +27,18 @@
     opacity: 0;
   }
 }
+
+@keyframes terminal-showing {
+  to {
+    width: 36rem;
+    height: 22rem;
+    border-radius: 0.5rem;
+    border-width: 2px;
+  }
+}
+
+@keyframes terminal-cli-command-animate {
+  to {
+    transform: scale(1);
+  }
+}

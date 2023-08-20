@@ -22,11 +22,23 @@
         <img class="nickname-shadow nickname" src="marcosdly.svg" alt="Developer nickname" />
       </div>
       <nav class="main-nav">
-        <a href="#about" originaltext="About" mouseisover="false" colorclass="gruvbox-aqua">
+        <a
+          href="#about"
+          originaltext="About"
+          mouseisover="false"
+          colorclass="gruvbox-aqua"
+          wasclicked="false"
+        >
           <span class="font-mono"></span><span class="font-sans">About</span
           ><span class="parenthesis"></span>
         </a>
-        <a href="#resume" originaltext="Resume" mouseisover="false" colorclass="gruvbox-yellow">
+        <a
+          href="#resume"
+          originaltext="Resume"
+          mouseisover="false"
+          colorclass="gruvbox-yellow"
+          wasclicked="false"
+        >
           <span class="font-mono"></span><span class="font-sans">Resume</span
           ><span class="parenthesis"></span>
         </a>
@@ -35,10 +47,18 @@
           originaltext="Mais de Mim"
           mouseisover="false"
           colorclass="gruvbox-purple"
+          wasclicked="false"
         >
           <span class="font-mono"></span><span class="font-sans">Mais de Mim</span
           ><span class="parenthesis"></span>
         </a>
+        <div class="terminal">
+          <p class="terminal-cli-command" style="display: none">
+            <span class="gruvbox-aqua-dark">λ</span> › make build TARGET=<span
+              class="terminal-animation-build-target"
+            ></span>
+          </p>
+        </div>
       </nav>
     </header>
     <footer class="main-footer">

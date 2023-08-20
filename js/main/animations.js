@@ -132,7 +132,6 @@ for (const elem of mainNavLinks) {
     });
 
     for (const el of intersection) el.classList.add("main-nav-link-hide");
-    event.currentTarget.classList.add("main-nav-link-clicked");
     document.querySelector(".terminal").classList.add("terminal-animate");
   });
 }

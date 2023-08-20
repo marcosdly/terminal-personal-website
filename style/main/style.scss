@@ -186,10 +186,6 @@ a:hover {
   height: inherit;
 }
 
-.main-nav-link-clicked {
-  position: fixed;
-}
-
 .main-nav-link-hide {
   @include basic-animation(main-nav-link-hide, var(--main-nav-link-hide-speed));
 }

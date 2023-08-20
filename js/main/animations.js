@@ -41,9 +41,12 @@ async function animateMainNavLink(elem, state) {
     mouseIsOver = elem.getAttribute("mouseisover"),
     originalText = elem.getAttribute("originaltext"),
     originalTextFormatted = originalText.replaceAll(" ", "_"),
-    colorClass = elem.getAttribute("colorclass");
+    colorClass = elem.getAttribute("colorclass"),
+    wasClicked = elem.getAttribute("wasclicked");
 
-  if (mouseIsOver === "true") {
+  if (wasClicked === "true" && monoText === originalText && parenthesisText === "()") return;
+
+  if (mouseIsOver === "true" || wasClicked === "true") {
     if (parenthesisText.endsWith(")")) return;
     if (parenthesisText === "" && monoText === originalTextFormatted)
       state.mono.classList.add(colorClass);
@@ -68,6 +71,29 @@ async function animateMainNavLink(elem, state) {
   state.mono.textContent = monoText.substring(0, monoText.length - 1);
 }
 
+async function animateTerminalCommandText() {
+  const commandElement = document.querySelector(".terminal-cli-command");
+  commandElement.style.display = "block";
+  commandElement.classList.add("terminal-cli-command-animate");
+}
+
+async function animateTerminalText() {
+  const text = (await (await fetch("terminal-text.txt")).text()).split("\n"),
+    terminalElement = document.querySelector(".terminal"),
+    target = document
+      .querySelector(".terminal-animation-build-target")
+      .textContent.toLocaleLowerCase()
+      .replaceAll(" ", "_");
+  for (const line of text) {
+    const p = document.createElement("p");
+    p.innerText = line.replaceAll("{target}", target);
+    terminalElement.appendChild(p);
+    terminalElement.scrollTop = terminalElement.scrollHeight;
+    if (line.startsWith(":: ")) await new Promise((res) => setTimeout(res, 50));
+    else await new Promise((res) => setTimeout(res, 500));
+  }
+}
+
 const mainNavLinks = document.querySelectorAll(".main-nav a");
 
 for (const elem of mainNavLinks) {
@@ -88,12 +114,20 @@ for (const elem of mainNavLinks) {
   });
 
   elem.addEventListener("click", async (event) => {
+    event.currentTarget.setAttribute("wasclicked", "true");
+    document.querySelector(".terminal-animation-build-target").textContent = event.currentTarget
+      .getAttribute("originalText")
+      .toLowerCase()
+      .replaceAll(" ", "_");
+
     const intersection = [];
     mainNavLinks.forEach((x) => {
       if (!Object.is(x, elem)) intersection.push(x);
     });
+
     for (const el of intersection) el.classList.add("main-nav-link-hide");
     event.currentTarget.classList.add("main-nav-link-clicked");
+    document.querySelector(".terminal").classList.add("terminal-animate");
   });
 }
 
@@ -101,5 +135,9 @@ addEventListener("animationend", (event) => {
   if (event.animationName === "main-nav-link-hide") {
     event.target.style.display = "none";
     document.querySelector(".main-nav-link-clicked").classList.remove("main-nav-link-clicked");
+  } else if (event.animationName === "terminal-showing") {
+    animateTerminalCommandText();
+  } else if (event.animationName === "terminal-cli-command-animate") {
+    animateTerminalText();
   }
 });

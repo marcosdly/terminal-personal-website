@@ -14,6 +14,10 @@ addEventListener("load", (event) => {
   animateFooter();
 });
 
+const terminalTextArray = fetch("terminal-text.txt")
+  .then((txt) => txt.text())
+  .then((txt) => txt.split("\n"));
+
 class NavLinkAnimationState {
   /**
    *
@@ -82,9 +86,12 @@ async function animateTerminalCommandText() {
   commandElement.classList.add("terminal-cli-command-animate");
 }
 
-async function animateTerminalText() {
-  const text = (await (await fetch("terminal-text.txt")).text()).split("\n"),
-    terminalElement = document.querySelector(".terminal"),
+/**
+ *
+ * @param {Array<string>} text
+ */
+async function animateTerminalText(text) {
+  const terminalElement = document.querySelector(".terminal"),
     target = document
       .querySelector(".terminal-animation-build-target")
       .textContent.toLocaleLowerCase()
@@ -136,13 +143,13 @@ for (const elem of mainNavLinks) {
   });
 }
 
-addEventListener("animationend", (event) => {
+addEventListener("animationend", async (event) => {
   if (event.animationName === "main-nav-link-hide") {
     event.target.style.display = "none";
     // document.querySelector(".main-nav-link-clicked").classList.remove("main-nav-link-clicked");
   } else if (event.animationName === "terminal-showing") {
     animateTerminalCommandText();
   } else if (event.animationName === "terminal-cli-command-animate") {
-    animateTerminalText();
+    animateTerminalText(await terminalTextArray);
   }
 });

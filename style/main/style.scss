@@ -14,31 +14,6 @@
   margin: 0;
 }
 
-@mixin nickname-animation(
-  $name,
-  $duration: var(--nickname-base-duration),
-  $delay: var(--nickname-base-delay)
-) {
-  animation-name: $name;
-  animation-duration: $duration;
-  animation-iteration-count: 1;
-  animation-delay: $delay;
-  animation-timing-function: ease;
-  animation-fill-mode: forwards;
-  animation-play-state: paused;
-}
-
-@mixin basic-animation($name, $duration, $delay: 0s) {
-  animation-name: $name;
-  animation-duration: $duration;
-  animation-iteration-count: 1;
-  animation-delay: $delay;
-  animation-timing-function: ease;
-  animation-fill-mode: forwards;
-  animation-direction: normal;
-  animation-play-state: running;
-}
-
 body {
   background-color: #d6d6d6;
   overflow-x: hidden;
@@ -57,11 +32,6 @@ a:hover {
   height: var(--main-header-height);
   width: 100vw;
 }
-.nickname {
-  height: 12.5rem;
-  filter: drop-shadow(0px 0px 70px rgba(0, 0, 0, 0.4));
-  @include nickname-animation(nickname-to-header);
-}
 
 .nickname-container {
   height: 100vh;
@@ -70,7 +40,6 @@ a:hover {
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  @include nickname-animation(nickname-container-to-header);
 }
 
 .main-footer {
@@ -81,7 +50,6 @@ a:hover {
   display: flex;
   align-items: center;
   transform: translateY(var(--main-footer-height));
-  @include nickname-animation(main-footer-appearing);
 }
 
 .main-footer div {
@@ -186,10 +154,6 @@ a:hover {
   height: inherit;
 }
 
-.main-nav-link-hide {
-  @include basic-animation(main-nav-link-hide, var(--main-nav-link-hide-speed));
-}
-
 .terminal {
   width: 0vw;
   height: 0vh;
@@ -212,17 +176,8 @@ a:hover {
   overflow: hidden;
 }
 
-.terminal-animate {
-  @include basic-animation(terminal-showing, 0.5s, var(--main-nav-link-hide-speed));
-}
-
 .terminal-cli-command {
   transform: scale(0);
-}
-
-.terminal-cli-command-animate {
-  display: block;
-  @include basic-animation(terminal-cli-command-animate, 0.2s);
 }
 
 .loading-redirect {

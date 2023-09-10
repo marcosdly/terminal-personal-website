@@ -6,6 +6,10 @@ import * as scss from "postcss-scss";
 /** @type {import('vite').UserConfig} */
 export default {
   base: "https://marcosdly.dev",
+  server: {
+    // port set on cors
+    port: 64009,
+  },
   build: {
     target: "es2015",
     cssTarget: "es2015",

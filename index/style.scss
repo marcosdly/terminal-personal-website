@@ -1,3 +1,5 @@
+@use "style/colors";
+
 :root {
   font-size: 16px;
   --nickname-base-duration: 0.5s;
@@ -106,34 +108,6 @@ a:hover {
   font-weight: 500;
 }
 
-.gruvbox-aqua {
-  color: #427b58;
-}
-
-.gruvbox-aqua-dark {
-  color: #8ec07c;
-}
-
-.gruvbox-blue {
-  color: #0a8299;
-}
-
-.gruvbox-purple {
-  color: #8f3f71;
-}
-
-.gruvbox-yellow {
-  color: #b57614;
-}
-
-.gruvbox-orange {
-  color: #af3a03;
-}
-
-.gruvbox-red {
-  color: #9d0006;
-}
-
 .links-container {
   display: inline-flex;
   justify-content: center;
@@ -189,3 +163,5 @@ a:hover {
   /* Equivalent to #d6d6d6 */
   filter: invert(85%) sepia(19%) saturate(16%) hue-rotate(337deg) brightness(94%) contrast(100%);
 }
+
+@include colors.gruvbox;

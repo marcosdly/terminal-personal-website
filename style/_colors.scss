@@ -3,10 +3,6 @@
     color: #427b58;
   }
 
-  .gruvbox-aqua-dark {
-    color: #8ec07c;
-  }
-
   .gruvbox-blue {
     color: #0a8299;
   }
@@ -27,3 +23,12 @@
     color: #9d0006;
   }
 }
+
+$gruvbox-map: (
+  aqua: #427b58,
+  blue: #0a8299,
+  purple: #8f3f71,
+  yellow: #b57614,
+  orange: #af3a03,
+  red: #9d0006,
+);

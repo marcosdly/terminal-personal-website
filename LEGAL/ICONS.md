@@ -7,6 +7,7 @@
 ## MIT
 
 - [`github-logo.svg`](../public/github-logo.svg) by [Radix](https://www.radix-ui.com/icons)
+- [`mail-up.svg`](../public/mail-up.svg) by [Tabler Icons](https://github.com/tabler/tabler-icons)
 
 ## OFL
 

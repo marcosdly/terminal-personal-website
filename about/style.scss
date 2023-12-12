@@ -15,6 +15,7 @@ $photos-caption-height: 1.8rem;
 $name-title-height: 5rem;
 $photos-carrousel-radius: 0.6rem;
 $content-width: 88ch;
+$custom-scrollbar-offset: 1.5rem;
 
 :root {
   --main-h2-left-margin: 1rem;
@@ -31,9 +32,25 @@ body {
   overflow: hidden;
   color: #444;
   width: 100vw; // Force width to ignore scrollbar
+  height: 100vh; // For consistency of dependent calculations
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+
+  $scrollbar-width: 0.5rem;
+  .scrollbar {
+    position: absolute;
+    right: calc((100vw - #{$content-width}) / 2 - #{$custom-scrollbar-offset});
+    width: $scrollbar-width;
+    background-color: #eee;
+    border-radius: calc($scrollbar-width / 2);
+  }
+
+  .scrollbar > .actual-bar {
+    background-color: #444;
+    border-radius: calc($scrollbar-width / 2);
+  }
 }
 
 article {

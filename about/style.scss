@@ -10,7 +10,11 @@ $gruvbox-filter: map.values(colors.$gruvbox-filter-map);
 $amount-links: 4;
 $amount-of-main-h2: 6;
 $amount-photos: 3;
+
 $photos-caption-height: 1.8rem;
+$name-title-height: 5rem;
+$photos-carrousel-radius: 0.6rem;
+$content-width: 88ch;
 
 :root {
   --main-h2-left-margin: 1rem;
@@ -24,18 +28,16 @@ $photos-caption-height: 1.8rem;
 
 body {
   background-color: #d6d6d6;
-  overflow-x: hidden;
+  overflow: hidden;
   color: #444;
-  width: 100vw;
-  height: 100vh;
+  width: 100vw; // Force width to ignore scrollbar
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 article {
-  width: 88ch;
-  height: 90vh;
+  width: $content-width;
 }
 
 h1,
@@ -55,7 +57,7 @@ header {
     display: flex;
     align-items: center;
     margin: 0 var(--main-h2-left-margin);
-    margin-bottom: 1rem;
+    height: $name-title-height;
   }
 
   &.name-links-header > h1 {
@@ -90,7 +92,16 @@ nav {
 }
 
 main {
-  > h2 {
+  height: calc(100vh - #{$name-title-height});
+  width: $content-width;
+  overflow: hidden;
+
+  .scroll-container {
+    height: inherit;
+    overflow-y: scroll;
+  }
+
+  .scroll-container > h2 {
     font-size: 1.8rem;
     margin-bottom: 0.8rem;
     margin-left: var(--main-h2-left-margin);
@@ -98,7 +109,7 @@ main {
 
   $delta: calc(60% / $amount-of-main-h2);
   @for $i from 1 through $amount-of-main-h2 {
-    > h2:nth-of-type(#{$i})::after {
+    .scroll-container > h2:nth-of-type(#{$i})::after {
       content: "";
       display: block;
       background: linear-gradient(
@@ -117,7 +128,6 @@ main {
 }
 
 div.synthesis {
-  $radius: 0.6rem;
   display: inline-block;
 
   div.synthesis-photos-container {
@@ -130,7 +140,7 @@ div.synthesis {
 
       list-style: none;
       background-color: #eee;
-      border-radius: $radius;
+      border-radius: $photos-carrousel-radius;
     }
 
     ol.photos-carrousel > {
@@ -145,7 +155,7 @@ div.synthesis {
       }
 
       li {
-        border-radius: $radius;
+        border-radius: $photos-carrousel-radius;
         overflow: hidden;
         transition: clip-path 0.2s linear;
         clip-path: circle(100%);
@@ -184,7 +194,7 @@ div.synthesis {
         $color: list.nth($gruvbox, $i % $amount-photos + 1);
 
         .select:nth-of-type(#{$i}) {
-          right: $radius + ($size + $gap) * ($amount-photos - $i);
+          right: $photos-carrousel-radius + ($size + $gap) * ($amount-photos - $i);
         }
 
         .select.checked:nth-of-type(#{$i}) {
@@ -208,12 +218,12 @@ div.synthesis {
         margin-right: auto;
         font-weight: normal;
         font-size: 1rem;
-        margin-left: $radius;
+        margin-left: $photos-carrousel-radius;
       }
 
       > img {
         display: inline-block;
-        margin-right: $radius;
+        margin-right: $photos-carrousel-radius;
         @include misc.color-to-filter(#222);
       }
 

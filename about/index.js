@@ -20,3 +20,16 @@ photoSelectElements.forEach((elem, i) => {
 
   if (i === 0) elem.click();
 });
+
+const articleMain = document.querySelector("article > main");
+const articleScrollContainer = document.querySelector("article > main > .scroll-container");
+
+function scrollbarHideResizing() {
+  if (!articleScrollContainer && !articleMain) return;
+  const scrollbarWidth = articleScrollContainer.offsetWidth - articleScrollContainer.scrollWidth;
+  articleScrollContainer.style.width = `${articleMain.offsetWidth + scrollbarWidth}px`;
+}
+
+addEventListener("resize", scrollbarHideResizing);
+
+scrollbarHideResizing();

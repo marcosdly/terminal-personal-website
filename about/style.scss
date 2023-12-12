@@ -1,5 +1,5 @@
 @use "style/colors";
-@use "style/utils";
+@use "style/misc";
 @use "sass:list";
 @use "sass:map";
 @use "sass:math";
@@ -214,7 +214,7 @@ div.synthesis {
       > img {
         display: inline-block;
         margin-right: $radius;
-        @include utils.color-to-filter(#222);
+        @include misc.color-to-filter(#222);
       }
 
       > img[alt*="next" i] {

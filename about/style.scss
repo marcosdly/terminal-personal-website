@@ -6,6 +6,7 @@
 @use "sass:color";
 
 $gruvbox: map.values(colors.$gruvbox-map);
+$gruvbox-filter: map.values(colors.$gruvbox-filter-map);
 $amount-links: 4;
 $amount-of-main-h2: 6;
 $amount-photos: 3;
@@ -78,8 +79,13 @@ nav {
     display: inherit;
     width: inherit;
     height: inherit;
-    transition: filter 1s ease-in-out;
-    @include utils.color-to-filter(#222);
+    transition: filter 0.5s 0.1s linear;
+  }
+
+  @for $i from 1 through $amount-links {
+    &.personal-links > a:nth-of-type(#{$i}) > img:hover {
+      filter: #{list.nth($gruvbox-filter, $i % $amount-links + 1)};
+    }
   }
 }
 

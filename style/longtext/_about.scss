@@ -1,0 +1,91 @@
+@use "style/colors";
+
+$float-margin: 1rem;
+
+@mixin common {
+  p,
+  blockquote {
+    font-family: "Space Grotesk", sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .initial-capital {
+    font-family: "Lexend", sans-serif;
+  }
+
+  h3 {
+    margin-bottom: 1.2rem;
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    text-align: justify;
+  }
+
+  a {
+    transition: color 0.2s linear;
+    text-decoration: none;
+  }
+
+  a:link,
+  a:visited {
+    color: map-get(colors.$gruvbox-map, red);
+  }
+
+  a:hover {
+    color: map-get(colors.$gruvbox-map, blue);
+  }
+
+  blockquote {
+    background-color: #eee;
+    border-radius: 0.5rem;
+    padding: 0.8rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  blockquote > p {
+    font-style: italic;
+  }
+
+  blockquote > footer {
+    margin-left: auto;
+  }
+
+  blockquote > footer p {
+    text-align: right;
+  }
+
+  blockquote p {
+    text-align: left;
+  }
+
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  .center-text {
+    text-align: center;
+  }
+
+  .indent {
+    text-indent: 2rem;
+  }
+
+  .initial-capital {
+    font-size: 3.95rem;
+    line-height: 1;
+    float: left;
+    margin-right: 0.3rem;
+    font-weight: bold;
+  }
+}

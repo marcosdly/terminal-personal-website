@@ -116,12 +116,7 @@ main {
   width: $content-width;
   overflow: hidden;
 
-  .scroll-container {
-    height: inherit;
-    overflow-y: scroll;
-  }
-
-  .scroll-container > h2 {
+  > h2 {
     font-size: 1.8rem;
     margin-bottom: 0.8rem;
     margin-left: var(--main-h2-left-margin);
@@ -129,7 +124,7 @@ main {
 
   $delta: calc(60% / $amount-of-main-h2);
   @for $i from 1 through $amount-of-main-h2 {
-    .scroll-container > h2:nth-of-type(#{$i})::after {
+    > h2:nth-of-type(#{$i})::after {
       content: "";
       display: block;
       background: linear-gradient(

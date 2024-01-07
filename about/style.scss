@@ -9,8 +9,8 @@
 $gruvbox: map.values(colors.$gruvbox-map);
 $gruvbox-filter: map.values(colors.$gruvbox-filter-map);
 $amount-links: 4;
-$amount-of-main-h2: 6;
-$amount-photos: 3;
+$amount-of-main-h2: 1;
+$amount-photos: 2;
 
 $photos-caption-height: 1.8rem;
 $name-title-height: 5rem;
@@ -155,7 +155,7 @@ div.synthesis {
       position: relative;
 
       list-style: none;
-      background-color: #eee;
+      background-color: #222;
       border-radius: $photos-carrousel-radius;
     }
 
@@ -173,7 +173,7 @@ div.synthesis {
       li {
         border-radius: $photos-carrousel-radius;
         overflow: hidden;
-        transition: clip-path 0.2s linear;
+        transition: clip-path 0.8s ease-in-out;
         clip-path: circle(100%);
       }
 

@@ -15,12 +15,12 @@ $amount-photos: 2;
 $photos-caption-height: 1.8rem;
 $name-title-height: 5rem;
 $photos-carrousel-radius: 0.6rem;
-$content-width: 88ch;
+$content-width: 900px;
 $custom-scrollbar-offset: 1.5rem;
 
 :root {
   --main-h2-left-margin: 1rem;
-  --photos-caption-height: 1.8rem;
+  font-size: 16px;
 }
 
 * {
@@ -150,8 +150,8 @@ div.synthesis {
     margin-right: textstyle.$float-margin;
 
     ol.photos-carrousel {
-      width: 35ch;
-      height: 46ch;
+      width: 305px;
+      height: 425px;
       position: relative;
 
       list-style: none;

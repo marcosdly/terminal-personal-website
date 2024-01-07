@@ -99,6 +99,11 @@ class Scroller {
    * @returns {void}
    */
   scroll() {
+    if (this.delta === 0 && this.scrollable.offsetHeight === this.scrollable.scrollHeight) {
+      this.unset();
+      return;
+    }
+
     if (this.delta === 0 || this.scrollerOffset === this.maxOffsetRange()) return;
     else if (this.scrollingUp() && this.isNextTooMuch()) this.unset();
     else if (this.isNextTooMuch()) this.scroller.style.marginTop = `${-this.maxOffsetRange()}px`;
@@ -162,12 +167,17 @@ function customScrollbarCalculate(event) {
 
 function scrollbarHideResizing() {
   if (!customScrollbar || !customScrollbarIndicator || !articleMain || !scrollCeiling) return;
-
+  const scroller = new Scroller(articleMain, scrollCeiling, 0);
+  scroller.scroll();
   const totalBarHeight = articleMain.offsetHeight * 0.4;
   customScrollbar.style.height = `${totalBarHeight}px`;
-  customScrollbarIndicator.style.height = `${
-    totalBarHeight * (articleMain.offsetHeight / articleMain.scrollHeight)
-  }px`;
+  if (scroller.scrollable.offsetHeight >= scroller.scrollable.scrollHeight) {
+    customScrollbarIndicator.style.height = `${totalBarHeight}px`;
+  } else {
+    customScrollbarIndicator.style.height = `${
+      totalBarHeight * (articleMain.offsetHeight / articleMain.scrollHeight)
+    }px`;
+  }
   customScrollbarCalculate();
 }
 

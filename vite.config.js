@@ -1,35 +1,44 @@
-import { glob } from "glob";
-import * as autoprefixer from "autoprefixer";
-import * as nested from "postcss-nested";
-import * as scss from "postcss-scss";
+import { defineConfig } from "vite";
+import { ViteMinifyPlugin } from "vite-plugin-minify";
 
-/** @type {import('vite').UserConfig} */
-export default {
-  base: "https://marcosdly.dev",
+export default defineConfig(({ mode }) => ({
   server: {
-    // port set on cors
-    port: 64009,
+    port: 6400,
+    https: true,
+    open: true,
   },
+  plugins: [
+    ViteMinifyPlugin({
+      caseSensitive: true,
+      collapseInlineTagWhitespace: true,
+      collapseWhitespace: true,
+      html5: true,
+      keepClosingSlash: true,
+      minifyURLs: true,
+      quoteCharacter: '"',
+      removeComments: true,
+      removeEmptyAttributes: true,
+      removeEmptyElements: false,
+    }),
+  ],
+  css: { devSourcemap: true },
+  logLevel: mode === "development" ? "info" : "silent",
+  clearScreen: false,
+  appType: "mpa",
   build: {
-    target: "es2015",
-    cssTarget: "es2015",
-    publicDir: "public",
-    outDir: "dist",
-    assetsDir: "assets",
+    target: "es6",
+    assetsDir: "",
+    assetsInlineLimit: 0,
+    manifest: true,
+    minify: mode === "development" ? "esbuild" : "terser",
     emptyOutDir: true,
-    cssMinify: true,
-    css: {
-      postcss: {
-        plugins: [autoprefixer, nested, scss],
-      },
-    },
-    minify: true,
     rollupOptions: {
-      input: glob.sync("**/*.html", { ignore: ["dist/**", "public/**"] }),
+      input: ["index.html", "about/index.html", "./404/index.html"],
       output: {
+        entryFileNames: "[name]-[hash].js",
         chunkFileNames: "[name]-[hash].js",
         assetFileNames: "[name]-[hash][extname]",
       },
     },
   },
-};
+}));

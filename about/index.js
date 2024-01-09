@@ -1,5 +1,7 @@
 "use strict";
 
+import { FetchImage } from "../js/firebase/storage";
+
 /**
  * @param {string} str
  * @returns {Number?}
@@ -185,3 +187,9 @@ addEventListener("resize", scrollbarHideResizing);
 articleMain.addEventListener("wheel", customScrollbarCalculate);
 
 scrollbarHideResizing();
+
+document.querySelectorAll("img[data-storage-origin][data-storage-filename]").forEach((elem) => {
+  FetchImage[elem.getAttribute("data-storage-origin")](
+    elem.getAttribute("data-storage-filename")
+  ).then((url) => (elem.src = url));
+});

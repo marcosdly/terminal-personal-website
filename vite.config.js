@@ -39,5 +39,9 @@ export default defineConfig(({ mode }) => ({
         assetFileNames: "[name]-[hash][extname]",
       },
     },
+    terserOptions: {
+      format: { comments: false },
+    },
   },
+  esbuild: { legalComments: "none" },
 }));

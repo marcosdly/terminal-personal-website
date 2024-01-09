@@ -30,20 +30,18 @@
 
 $gruvbox-map: (
   aqua: #427b58,
-  aqua-dark: #8ec07c,
   blue: #0a8299,
   purple: #8f3f71,
   yellow: #b57614,
   orange: #af3a03,
   red: #9d0006,
+  aqua-dark: #8ec07c,
 );
 
 $gruvbox-filter-map: (
   // Required to animate the filter property
   aqua:
     "brightness(0) saturate(100%) invert(40%) sepia(16%) saturate(1114%) hue-rotate(90deg) brightness(100%) contrast(86%)",
-  aqua-dark:
-    "brightness(0) saturate(100%) invert(73%) sepia(27%) saturate(477%) hue-rotate(59deg) brightness(92%) contrast(91%)",
   blue:
     "brightness(0) saturate(100%) invert(39%) sepia(47%) saturate(1189%) hue-rotate(148deg) brightness(92%) contrast(92%)",
   purple:
@@ -53,5 +51,7 @@ $gruvbox-filter-map: (
   orange:
     "brightness(0) saturate(100%) invert(21%) sepia(84%) saturate(2198%) hue-rotate(10deg) brightness(97%) contrast(98%)",
   red:
-    "brightness(0) saturate(100%) invert(14%) sepia(64%) saturate(6481%) hue-rotate(351deg) brightness(63%) contrast(110%)"
+    "brightness(0) saturate(100%) invert(14%) sepia(64%) saturate(6481%) hue-rotate(351deg) brightness(63%) contrast(110%)",
+  aqua-dark:
+    "brightness(0) saturate(100%) invert(73%) sepia(27%) saturate(477%) hue-rotate(59deg) brightness(92%) contrast(91%)"
 );

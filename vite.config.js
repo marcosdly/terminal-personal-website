@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     ViteMinifyPlugin({
       caseSensitive: true,
-      collapseInlineTagWhitespace: true,
+      collapseInlineTagWhitespace: false,
       collapseWhitespace: true,
       html5: true,
       keepClosingSlash: true,

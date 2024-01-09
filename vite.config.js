@@ -4,7 +4,6 @@ import { ViteMinifyPlugin } from "vite-plugin-minify";
 export default defineConfig(({ mode }) => ({
   server: {
     port: 6400,
-    https: true,
     open: true,
   },
   plugins: [

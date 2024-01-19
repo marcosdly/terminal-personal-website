@@ -37,7 +37,7 @@ a:hover {
 }
 
 .main-header {
-  height: var(--main-header-height);
+  height: 100vh;
 }
 
 .nickname-container {
@@ -45,6 +45,8 @@ a:hover {
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  width: inherit;
+  height: inherit;
 }
 
 .main-footer {
@@ -54,7 +56,14 @@ a:hover {
   width: 100vw;
   display: flex;
   align-items: center;
-  transform: translateY(var(--main-footer-height));
+
+  // Fuck it... for now. Ain't got time to orchestrate the
+  // perfect calc expression. Also, javascript API for CSS
+  // is ugly and looks like a backwards compatibility influenced
+  // hack, as there aren't enough hacks in the web already.
+  // Since the spirit to have is "why the fuck not", why the
+  // fuck not throw some 100vh offsets. It even looks good.
+  transform: translateY(100vh);
 }
 
 .main-footer div {
@@ -170,14 +179,22 @@ a:hover {
 }
 
 @media screen and (orientation: portrait) {
+  :root {
+    --nickname-size: calc(85vw);
+  }
+
   .nickname {
-    width: calc(85vw);
+    width: var(--nickname-size);
   }
 }
 
 @media screen and (orientation: landscape) {
+  :root {
+    --nickname-size: calc(15vh);
+  }
+
   .nickname {
-    height: calc(15vh);
+    height: var(--nickname-size);
   }
 }
 

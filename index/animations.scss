@@ -1,14 +1,12 @@
 @keyframes nickname-to-header {
+  from {
+    filter: drop-shadow(0px 0px 70px rgba(0, 0, 0, 0.4));
+    height: var(--nickname-size);
+  }
+
   to {
     filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0));
     height: calc(var(--main-header-height) * 0.4);
-  }
-}
-
-@keyframes nickname-container-to-header {
-  to {
-    height: inherit;
-    width: inherit;
   }
 }
 
@@ -44,6 +42,12 @@
   }
 }
 
+@keyframes main-header-resizing {
+  to {
+    height: var(--main-header-height);
+  }
+}
+
 @mixin nickname-animation(
   $name,
   $duration: var(--nickname-base-duration),
@@ -74,12 +78,12 @@
   @include nickname-animation(nickname-to-header);
 }
 
-.nickname-container {
-  @include nickname-animation(nickname-container-to-header);
-}
-
 .main-footer {
   @include nickname-animation(main-footer-appearing);
+}
+
+.main-header {
+  @include nickname-animation(main-header-resizing);
 }
 
 .main-nav-link-hide {

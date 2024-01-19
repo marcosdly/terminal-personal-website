@@ -2,7 +2,7 @@
 
 function animateNickname() {
   document.querySelector(".nickname").style["animation-play-state"] = "running";
-  document.querySelector(".nickname-container").style["animation-play-state"] = "running";
+  document.querySelector(".main-header").style["animation-play-state"] = "running";
 }
 
 function animateFooter() {

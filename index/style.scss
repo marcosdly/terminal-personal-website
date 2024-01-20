@@ -198,7 +198,7 @@ a:hover {
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 650px) {
   :root {
     --full-terminal-width: calc(100vw - var(--main-nav-link-margin-left) * 2);
   }
@@ -213,7 +213,7 @@ a:hover {
   }
 
   .terminal {
-    font-size: 9.5pt;
+    font-size: 13px;
   }
 
   @media (max-height: 550px) {
@@ -223,7 +223,7 @@ a:hover {
   }
 }
 
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 450px) {
   :root {
     --main-nav-link-font-size: calc(20vw);
     --main-nav-link-margin-left: 0;
@@ -241,10 +241,6 @@ a:hover {
     margin-bottom: 1rem;
   }
 
-  .terminal {
-    font-size: 8pt;
-  }
-
   .main-footer {
     justify-content: center;
     flex-direction: column-reverse;
@@ -253,7 +249,7 @@ a:hover {
 
   .main-footer .title {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
   }
 
   .main-footer .title-container {
@@ -273,9 +269,13 @@ a:hover {
     height: 2rem;
   }
 
-  @media (max-height: 550px) {
+  @media (max-height: 550px) or (max-width: 330px) {
     :root {
       --full-terminal-height: calc(30vh);
+    }
+
+    .main-footer .title {
+      font-size: 1.35rem;
     }
   }
 }

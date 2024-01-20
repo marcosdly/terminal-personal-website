@@ -150,6 +150,7 @@ for (const elem of mainNavLinks) {
 
     for (const el of intersection) el.classList.add("main-nav-link-hide");
     document.querySelector(".terminal").classList.add("terminal-animate");
+    elem.style["animation-play-state"] = "running";
   });
 }
 

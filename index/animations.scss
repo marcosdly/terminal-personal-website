@@ -6,7 +6,7 @@
 
   to {
     filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0));
-    height: calc(var(--main-header-height) * 0.4);
+    height: calc(var(--main-header-height) * 0.5);
   }
 }
 
@@ -23,6 +23,16 @@
 
   to {
     opacity: 0;
+  }
+}
+
+@keyframes terminal-function {
+  from {
+    font-size: var(--main-nav-link-font-size);
+  }
+
+  to {
+    font-size: var(--main-nav-link-font-size-post-animation);
   }
 }
 
@@ -88,6 +98,10 @@
 
 .main-nav-link-hide {
   @include basic-animation(main-nav-link-hide, var(--main-nav-link-hide-speed));
+}
+
+.main-nav a {
+  @include nickname-animation(terminal-function, 0.3s, 0s);
 }
 
 .terminal-animate {

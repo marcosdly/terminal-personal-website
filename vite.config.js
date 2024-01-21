@@ -2,6 +2,13 @@ import * as vite from "vite";
 import { ViteMinifyPlugin } from "vite-plugin-minify";
 
 export default vite.defineConfig(({ command, mode }) => {
+  /** @type {vite.WatchOptions} */
+  const forceFasterHotUpdate = {
+    usePolling: true,
+    interval: 300, // ms
+    binaryInterval: 300, // ms
+  };
+
   /** @type {vite.UserConfig} */
   let config = {
     server: {
@@ -49,6 +56,7 @@ export default vite.defineConfig(({ command, mode }) => {
   if (command === "serve" && mode === "development") {
     config.logLevel = "info";
     config.build.minify = "esbuild";
+    config.server.watch = { ...config.server.watch, ...forceFasterHotUpdate };
   }
 
   if (mode === "production") {

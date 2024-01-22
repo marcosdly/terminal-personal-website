@@ -155,7 +155,8 @@ a:hover {
   width: 1.5rem;
   /* See https://stackoverflow.com/a/53336754/15493645 */
   /* Equivalent to #d6d6d6 */
-  filter: invert(85%) sepia(19%) saturate(16%) hue-rotate(337deg) brightness(94%) contrast(100%);
+  filter: invert(85%) sepia(19%) saturate(16%) hue-rotate(337deg) brightness(94%)
+    contrast(100%);
 }
 
 @media screen and (orientation: portrait) {
@@ -242,7 +243,9 @@ a:hover {
 @mixin desktop-ui {
   :root {
     --main-nav-link-font-size: calc((var(--main-header-height) + 1vw + 1vh) * 1.3);
-    --main-nav-link-font-size-post-animation: calc(var(--main-nav-link-font-size) * 0.75);
+    --main-nav-link-font-size-post-animation: calc(
+      var(--main-nav-link-font-size) * 0.75
+    );
     --main-nav-link-margin-left: calc(var(--main-nav-link-font-size) * 0.4);
     --full-terminal-width: calc(var(--main-nav-link-font-size) * (e * 1.7));
     --full-terminal-height: calc(var(--main-footer-height) * e * pi);

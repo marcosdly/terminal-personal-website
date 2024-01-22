@@ -72,7 +72,10 @@ async function animateMainNavLink(elem, state) {
   }
 
   if (parenthesisText != "") {
-    state.parenthesis.textContent = parenthesisText.substring(0, parenthesisText.length - 1);
+    state.parenthesis.textContent = parenthesisText.substring(
+      0,
+      parenthesisText.length - 1,
+    );
     return;
   }
   if (parenthesisText === "" && monoText === originalTextFormatted)
@@ -138,10 +141,11 @@ for (const elem of mainNavLinks) {
     event.preventDefault();
     event.currentTarget.setAttribute("wasclicked", "true");
     NavLinkAnimationState.elementClicked = event.currentTarget;
-    document.querySelector(".terminal-animation-build-target").textContent = event.currentTarget
-      .getAttribute("originalText")
-      .toLowerCase()
-      .replaceAll(" ", "_");
+    document.querySelector(".terminal-animation-build-target").textContent =
+      event.currentTarget
+        .getAttribute("originalText")
+        .toLowerCase()
+        .replaceAll(" ", "_");
 
     const intersection = [];
     mainNavLinks.forEach((x) => {

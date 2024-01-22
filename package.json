@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "prettier": {
-    "printWidth": 100
+    "printWidth": 88,
+    "quoteProps": "consistent"
   },
   "devDependencies": {
     "firebase": "10.7.1",
+    "prettier": "3.2.4",
     "sass": "1.64.2",
     "terser": "5.26.0",
     "vite": "4.4.9",

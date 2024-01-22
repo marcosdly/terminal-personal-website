@@ -32,7 +32,8 @@ const scroller = new Scroller(content, contentOffsetter, { inverted: false });
 
 function scrollbarCalculate() {
   const totalBarHeight = scroller.scrollable.offsetHeight * 0.4;
-  const contentSize = scroller.scrollable.scrollHeight + Math.abs(scroller.scrollerOffset);
+  const contentSize =
+    scroller.scrollable.scrollHeight + Math.abs(scroller.scrollerOffset);
   scrollbar.style.height = totalBarHeight + "px";
 
   if (scroller.scrollable.clientHeight >= contentSize) {
@@ -51,7 +52,8 @@ function scrollbarCalculate() {
 
   // Max possible value of margin-top
   const barMaxOffsetRange = scrollbar.offsetHeight - scrollbarIndicator.offsetHeight;
-  if (scroller.scroller.style.marginTop === "0px") scrollbarIndicator.style.marginTop = "0px";
+  if (scroller.scroller.style.marginTop === "0px")
+    scrollbarIndicator.style.marginTop = "0px";
   else if (scroller.scrollerOffset === -scroller.maxOffsetRange)
     scrollbarIndicator.style.marginTop = barMaxOffsetRange + "px";
   else
@@ -68,8 +70,10 @@ content.addEventListener("touchstart", scroller.ontouchstart);
 
 scrollbarCalculate();
 
-document.querySelectorAll("img[data-storage-origin][data-storage-filename]").forEach((elem) => {
-  FetchImage[elem.getAttribute("data-storage-origin")](
-    elem.getAttribute("data-storage-filename")
-  ).then((url) => (elem.src = url));
-});
+document
+  .querySelectorAll("img[data-storage-origin][data-storage-filename]")
+  .forEach((elem) => {
+    FetchImage[elem.getAttribute("data-storage-origin")](
+      elem.getAttribute("data-storage-filename"),
+    ).then((url) => (elem.src = url));
+  });

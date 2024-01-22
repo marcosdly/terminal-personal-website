@@ -96,7 +96,9 @@ export class Scroller {
   get maxOffsetRange() {
     if (this.scrollerOffset < 0) {
       return (
-        this.scrollable.scrollHeight + Math.abs(this.scrollerOffset) - this.scrollable.offsetHeight
+        this.scrollable.scrollHeight +
+        Math.abs(this.scrollerOffset) -
+        this.scrollable.offsetHeight
       );
     }
     return this.scrollable.scrollHeight - this.scrollable.offsetHeight;
@@ -137,7 +139,10 @@ export class Scroller {
    */
   isNextTooMuch() {
     if (this.vertically() === Scroller.UP && this.calc() > 0) return true;
-    if (this.vertically() === Scroller.DOWN && Math.abs(this.calc()) >= this.maxOffsetRange)
+    if (
+      this.vertically() === Scroller.DOWN &&
+      Math.abs(this.calc()) >= this.maxOffsetRange
+    )
       return true;
 
     return false;

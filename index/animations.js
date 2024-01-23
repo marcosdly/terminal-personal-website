@@ -9,6 +9,7 @@
 class NavLink {
   clicked = false;
   hovering = false;
+  static ready = false;
   static anyClicked = false;
   /** @type {Element?} */
   static clickedElement = null;
@@ -30,6 +31,7 @@ class NavLink {
   }
 
   async runEventLoop() {
+    addEventListener("animationend", this.onanimationend);
     this.elem.addEventListener("mouseover", this.onmouseover);
     this.elem.addEventListener("mouseout", this.onmouseout);
     this.elem.addEventListener("click", this.onclick);
@@ -46,7 +48,8 @@ class NavLink {
   }
 
   animate() {
-    // FIX Animation can start before nickname's animation end
+    if (!NavLink.ready) return;
+
     const sans = this.sans.textContent,
       mono = this.mono.textContent,
       paren = this.paren.textContent,
@@ -109,6 +112,14 @@ class NavLink {
 
       document.querySelector(".terminal").classList.add("terminal-show");
       this.elem.classList.add("animate");
+    };
+  }
+
+  /** @returns {EventCallback} */
+  get onanimationend() {
+    return (event) => {
+      if (NavLink.ready) return;
+      if (event.animationName === "nickname") NavLink.ready = true;
     };
   }
 }

@@ -25,13 +25,18 @@ class NavLink {
     this.colorClass = this.elem.getAttribute("colorclass");
   }
 
+  get fullyAnimated() {
+    return this.mono.textContent === this.text && this.paren.textContent === "()";
+  }
+
   async runEventLoop() {
     this.elem.addEventListener("mouseover", this.onmouseover);
     this.elem.addEventListener("mouseout", this.onmouseout);
     this.elem.addEventListener("click", this.onclick);
 
     while (true) {
-      if (NavLink.anyClicked && !this.clicked) {
+      if (this.clicked && this.fullyAnimated) return;
+      else if (NavLink.anyClicked && !this.clicked) {
         this.elem.classList.add("main-nav-link-hide");
         return;
       }
@@ -40,14 +45,14 @@ class NavLink {
     }
   }
 
-  async animate() {
+  animate() {
     // FIX Animation can start before nickname's animation end
     const sans = this.sans.textContent,
       mono = this.mono.textContent,
       paren = this.paren.textContent,
       formatted = this.text.replaceAll(" ", "_");
 
-    if (this.clicked && mono === this.originalText && paren === "()") return;
+    if (this.clicked && this.fullyAnimated) return;
 
     if (this.hovering || this.clicked) {
       if (paren === "()") return;

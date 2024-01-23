@@ -62,7 +62,7 @@ a:hover {
   display: inline-block;
 }
 
-.main-footer .title {
+.title {
   font-family: "Lexend", sans-serif;
   font-weight: 600;
   color: #444;
@@ -74,17 +74,17 @@ a:hover {
   justify-content: center;
 }
 
-.main-nav a {
+.page-selector {
   margin-left: var(--main-nav-link-margin-left);
   font-size: var(--main-nav-link-font-size);
   line-height: calc(var(--main-nav-link-font-size) * 0.8);
 }
 
-.main-nav a > span {
+.page-selector > span {
   line-height: inherit;
 }
 
-.main-nav a:last-child {
+.page-selector:last-child {
   margin-bottom: 0;
 }
 
@@ -98,6 +98,7 @@ a:hover {
   font-weight: 500;
   color: #444;
 }
+
 .parenthesis {
   font-family: var(--monospace-font);
   font-weight: 500;
@@ -109,11 +110,11 @@ a:hover {
   margin-right: 1rem;
 }
 
-.links-container a {
+.links-container > a {
   display: inline-block;
 }
 
-.links-container a:last-child {
+.links-container > a:last-child {
   margin-right: 0;
 }
 
@@ -144,7 +145,7 @@ a:hover {
   height: inherit;
 }
 
-.terminal-cli-command {
+.terminal-command {
   transform: scale(0);
 }
 
@@ -198,7 +199,7 @@ a:hover {
     width: 100vw;
   }
 
-  .main-nav a {
+  .page-selector {
     margin-bottom: 1rem;
   }
 
@@ -208,16 +209,16 @@ a:hover {
     height: unset;
   }
 
-  .main-footer .title {
+  .title {
     margin: 0;
     font-size: 1.8rem;
   }
 
-  .main-footer .title-container {
+  .title-container {
     margin-bottom: 0.5rem;
   }
 
-  .main-footer .links-container {
+  .links-container {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -225,7 +226,7 @@ a:hover {
     margin-bottom: 0.4rem;
   }
 
-  .links-container a {
+  .links-container > a {
     height: 2rem;
   }
 
@@ -261,7 +262,7 @@ a:hover {
     width: unset;
   }
 
-  .main-nav a {
+  .page-selector {
     margin-bottom: calc(var(--main-nav-link-margin-left) * 0.4);
   }
 
@@ -271,24 +272,24 @@ a:hover {
     height: var(--main-footer-height);
   }
 
-  .main-footer .title {
+  .title {
     margin-right: auto;
     margin-left: calc(var(--main-footer-title-size) * 0.5);
     font-size: var(--main-footer-title-size);
   }
 
-  .main-footer .title-container {
+  .title-container {
     margin-bottom: unset;
   }
 
-  .main-footer .links-container {
+  .links-container {
     display: inline-flex;
     flex-direction: unset;
     width: calc(var(--main-footer-icon-size) * 5);
     margin-bottom: unset;
   }
 
-  .links-container a {
+  .links-container > a {
     height: var(--main-footer-icon-size);
   }
 
@@ -333,7 +334,7 @@ a:hover {
       (min-aspect-ratio: 0.5/1),
       (min-aspect-ratio: 4/3),
       (min-aspect-ratio: 3/4) {
-        
+
       @include desktop-ui;
 
     }

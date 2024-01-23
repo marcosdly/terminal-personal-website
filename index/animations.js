@@ -37,7 +37,7 @@ class NavLink {
     while (true) {
       if (this.clicked && this.fullyAnimated) return;
       else if (NavLink.anyClicked && !this.clicked) {
-        this.elem.classList.add("main-nav-link-hide");
+        this.elem.classList.add("hide-page-selector");
         return;
       }
       this.animate();
@@ -102,10 +102,12 @@ class NavLink {
       NavLink.anyClicked = true;
       NavLink.clickedElement = proxy.elem;
 
-      document.querySelector(".terminal-animation-build-target").textContent =
-        proxy.elem.getAttribute("originaltext").toLowerCase().replaceAll(" ", "_");
+      document.querySelector(".terminal-target").textContent = proxy.elem
+        .getAttribute("originaltext")
+        .toLowerCase()
+        .replaceAll(" ", "_");
 
-      document.querySelector(".terminal").classList.add("terminal-animate");
+      document.querySelector(".terminal").classList.add("terminal-show");
       this.elem.classList.add("animate");
     };
   }
@@ -119,16 +121,16 @@ class Terminal {
   static terminal = document.querySelector(".terminal");
   static container = document.querySelector(".terminal-text-container");
   static spinner = document.querySelector(".loading-redirect");
-  static command = document.querySelector(".terminal-cli-command");
+  static command = document.querySelector(".terminal-command");
 
   static async animateCommand() {
     this.command.style.display = "block";
-    this.command.classList.add("terminal-cli-command-animate");
+    this.command.classList.add("terminal-command-show");
   }
 
   static async animateText() {
     const target = document
-      .querySelector(".terminal-animation-build-target")
+      .querySelector(".terminal-target")
       .textContent.toLowerCase()
       .replaceAll(" ", "_");
 
@@ -152,13 +154,13 @@ class Terminal {
      */
     return (event) => {
       switch (event.animationName) {
-        case "main-nav-link-hide":
+        case "hide-page-selector":
           event.target.style.display = "none";
           break;
-        case "terminal-showing":
+        case "terminal-show":
           proxy.animateCommand();
           break;
-        case "terminal-cli-command-animate":
+        case "terminal-command-show":
           proxy.animateText();
           break;
       }
@@ -168,10 +170,10 @@ class Terminal {
 
 addEventListener("load", () => {
   for (const selector of [".nickname", ".main-header", ".main-footer"])
-    document.querySelector(selector).style.animationPlayState = "running";
+    document.querySelector(selector).classList.add("animate");
 });
 
-for (const elem of document.querySelectorAll(".main-nav a"))
+for (const elem of document.querySelectorAll(".page-selector"))
   new NavLink(elem).runEventLoop();
 
 addEventListener("animationend", Terminal.onanimationend);

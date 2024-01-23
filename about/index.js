@@ -3,26 +3,41 @@
 import { FetchImage } from "../js/firebase/storage";
 import { Scroller } from "../js/customScroll";
 
-const photoSelectElements = document.querySelectorAll("ol.photos-carrousel > .select");
-const photoListItems = document.querySelectorAll("ol.photos-carrousel > li");
+class Carrousel {
+  static indexAttrName = "data-which-photo";
+  static remoteFileAttrName = "data-storage-filename";
+  static selects = document.querySelectorAll(".photos-carrousel > .select");
+  static items = document.querySelectorAll(".photos-carrousel > li");
 
-photoSelectElements.forEach((elem, i) => {
-  elem.setAttribute("data-which-photo", i);
+  static setup() {
+    this.selects.forEach((el, i) => {
+      const img = this.items[i].querySelector(`img[${this.remoteFileAttrName}]`),
+        file = img.getAttribute(this.remoteFileAttrName);
 
-  elem.addEventListener("click", (event) => {
-    photoSelectElements.forEach((el, j) => {
-      if (j.toString() === event.currentTarget.getAttribute("data-which-photo")) {
-        el.classList.add("checked");
-        photoListItems[j].style.clipPath = "circle(100%)";
-        return;
-      }
-      el.classList.remove("checked");
-      photoListItems[j].style.clipPath = "circle(0)";
+      el.setAttribute(this.indexAttrName, i);
+      el.addEventListener("click", this.onclick);
+      FetchImage.personality(file).then((url) => (img.src = url));
     });
-  });
+    this.selects[0].click();
+  }
 
-  if (i === 0) elem.click();
-});
+  static get onclick() {
+    const proxy = this;
+    /** @param {MouseEvent} event */
+    return (event) => {
+      const index = event.currentTarget.getAttribute(proxy.indexAttrName);
+      proxy.selects[index].classList.add("checked");
+      proxy.items[index].style.clipPath = "circle(100%)";
+      this.selects.forEach((el, i) => {
+        if (i.toString() === index) return;
+        el.classList.remove("checked");
+        proxy.items[i].style.clipPath = "circle(0)";
+      });
+    };
+  }
+}
+
+Carrousel.setup();
 
 const content = document.querySelector("article > main");
 const contentOffsetter = document.querySelector("article > main > .scroll-ceiling");
@@ -69,11 +84,3 @@ content.addEventListener("touchmove", scroller.ontouchmove);
 content.addEventListener("touchstart", scroller.ontouchstart);
 
 scrollbarCalculate();
-
-document
-  .querySelectorAll("img[data-storage-origin][data-storage-filename]")
-  .forEach((elem) => {
-    FetchImage[elem.getAttribute("data-storage-origin")](
-      elem.getAttribute("data-storage-filename"),
-    ).then((url) => (elem.src = url));
-  });

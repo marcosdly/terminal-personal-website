@@ -10,6 +10,8 @@ class NavLink {
   clicked = false;
   hovering = false;
   static anyClicked = false;
+  /** @type {Element?} */
+  static clickedElement = null;
 
   /**
    * @param {Element} element Main nav's link element
@@ -93,12 +95,68 @@ class NavLink {
       event.preventDefault();
       proxy.clicked = true;
       NavLink.anyClicked = true;
+      NavLink.clickedElement = proxy.elem;
 
       document.querySelector(".terminal-animation-build-target").textContent =
         proxy.elem.getAttribute("originaltext").toLowerCase().replaceAll(" ", "_");
 
       document.querySelector(".terminal").classList.add("terminal-animate");
       this.elem.classList.add("animate");
+    };
+  }
+}
+
+class Terminal {
+  static #text = fetch("terminal-text.txt")
+    .then((txt) => txt.text())
+    .then((txt) => txt.split("\n"));
+
+  static terminal = document.querySelector(".terminal");
+  static container = document.querySelector(".terminal-text-container");
+  static spinner = document.querySelector(".loading-redirect");
+  static command = document.querySelector(".terminal-cli-command");
+
+  static async animateCommand() {
+    this.command.style.display = "block";
+    this.command.classList.add("terminal-cli-command-animate");
+  }
+
+  static async animateText() {
+    const target = document
+      .querySelector(".terminal-animation-build-target")
+      .textContent.toLowerCase()
+      .replaceAll(" ", "_");
+
+    for (const line of await this.#text) {
+      const p = document.createElement("p");
+      p.innerText = line.replaceAll("{target}", target);
+      this.container.appendChild(p);
+      this.container.scrollTop = this.terminal.scrollHeight;
+      if (line.startsWith(":: ")) await new Promise((res) => setTimeout(res, 50));
+      else await new Promise((res) => setTimeout(res, 500));
+    }
+
+    this.spinner.style.display = "initial";
+    if (NavLink.anyClicked) window.location.assign(NavLink.clickedElement.href);
+  }
+
+  static get onanimationend() {
+    const proxy = this;
+    /**
+     * @param {AnimationEvent} event
+     */
+    return (event) => {
+      switch (event.animationName) {
+        case "main-nav-link-hide":
+          event.target.style.display = "none";
+          break;
+        case "terminal-showing":
+          proxy.animateCommand();
+          break;
+        case "terminal-cli-command-animate":
+          proxy.animateText();
+          break;
+      }
     };
   }
 }
@@ -117,71 +175,7 @@ addEventListener("load", (event) => {
   animateFooter();
 });
 
-const terminalTextArray = fetch("terminal-text.txt")
-  .then((txt) => txt.text())
-  .then((txt) => txt.split("\n"));
-
-class NavLinkAnimationState {
-  /**
-   *
-   * @param {Element} elem
-   */
-  constructor(elem) {
-    /** @type {Element} */
-    this.sans = elem.querySelector(".font-sans");
-    /** @type {Element} */
-    this.mono = elem.querySelector(".font-mono");
-    /** @type {Element} */
-    this.parenthesis = elem.querySelector(".parenthesis");
-  }
-
-  /** @type {boolean} */
-  static keepRunning = true;
-  /** @type {Element | null} */
-  static elementClicked = null;
-}
-
-async function animateTerminalCommandText() {
-  const commandElement = document.querySelector(".terminal-cli-command");
-  commandElement.style.display = "block";
-  commandElement.classList.add("terminal-cli-command-animate");
-}
-
-/**
- *
- * @param {Array<string>} text
- */
-async function animateTerminalText(text) {
-  const terminalElement = document.querySelector(".terminal"),
-    textContainer = document.querySelector(".terminal-text-container"),
-    target = document
-      .querySelector(".terminal-animation-build-target")
-      .textContent.toLocaleLowerCase()
-      .replaceAll(" ", "_");
-  for (const line of text) {
-    const p = document.createElement("p");
-    p.innerText = line.replaceAll("{target}", target);
-    textContainer.appendChild(p);
-    textContainer.scrollTop = terminalElement.scrollHeight;
-    if (line.startsWith(":: ")) await new Promise((res) => setTimeout(res, 50));
-    else await new Promise((res) => setTimeout(res, 500));
-  }
-
-  document.querySelector(".loading-redirect").style.display = "initial";
-  if (NavLinkAnimationState.elementClicked)
-    window.location.assign(NavLinkAnimationState.elementClicked.href);
-}
-
 for (const elem of document.querySelectorAll(".main-nav a"))
   new NavLink(elem).runEventLoop();
 
-addEventListener("animationend", async (event) => {
-  if (event.animationName === "main-nav-link-hide") {
-    event.target.style.display = "none";
-    // document.querySelector(".main-nav-link-clicked").classList.remove("main-nav-link-clicked");
-  } else if (event.animationName === "terminal-showing") {
-    animateTerminalCommandText();
-  } else if (event.animationName === "terminal-cli-command-animate") {
-    animateTerminalText(await terminalTextArray);
-  }
-});
+addEventListener("animationend", Terminal.onanimationend);

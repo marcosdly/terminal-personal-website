@@ -1,170 +1,190 @@
 "use strict";
 
-function animateNickname() {
-  document.querySelector(".nickname").style["animation-play-state"] = "running";
-  document.querySelector(".main-header").style["animation-play-state"] = "running";
-}
+/**
+ * @callback EventCallback
+ * @param {Even|undefined} event
+ * @returns {void}
+ */
 
-function animateFooter() {
-  document.querySelector(".main-footer").style["animation-play-state"] = "running";
-}
+class NavLink {
+  clicked = false;
+  hovering = false;
+  static ready = false;
+  static anyClicked = false;
+  /** @type {Element?} */
+  static clickedElement = null;
 
-addEventListener("load", (event) => {
-  animateNickname();
-  animateFooter();
-});
-
-const terminalTextArray = fetch("terminal-text.txt")
-  .then((txt) => txt.text())
-  .then((txt) => txt.split("\n"));
-
-class NavLinkAnimationState {
   /**
-   *
-   * @param {Element} elem
+   * @param {Element} element Main nav's link element
    */
-  constructor(elem) {
-    /** @type {Element} */
-    this.sans = elem.querySelector(".font-sans");
-    /** @type {Element} */
-    this.mono = elem.querySelector(".font-mono");
-    /** @type {Element} */
-    this.parenthesis = elem.querySelector(".parenthesis");
+  constructor(element) {
+    this.elem = element;
+    this.text = this.elem.getAttribute("originaltext");
+    this.sans = this.elem.querySelector(".font-sans");
+    this.mono = this.elem.querySelector(".font-mono");
+    this.paren = this.elem.querySelector(".parenthesis");
+    this.colorClass = this.elem.getAttribute("colorclass");
   }
 
-  /** @type {boolean} */
-  static keepRunning = true;
-  /** @type {Element | null} */
-  static elementClicked = null;
-}
-
-/**
- * @param {Element} elem
- * @param {NavLinkAnimationState} state
- */
-async function animateMainNavLink(elem, state) {
-  // TODO cover links their animation wont start until nickname animation ends
-  const sansText = state.sans.textContent,
-    monoText = state.mono.textContent,
-    parenthesisText = state.parenthesis.textContent,
-    mouseIsOver = elem.getAttribute("mouseisover"),
-    originalText = elem.getAttribute("originaltext"),
-    originalTextFormatted = originalText.replaceAll(" ", "_"),
-    colorClass = elem.getAttribute("colorclass"),
-    wasClicked = elem.getAttribute("wasclicked");
-
-  if (wasClicked === "true" && monoText === originalText && parenthesisText === "()") {
-    NavLinkAnimationState.keepRunning = false;
-    return;
+  get fullyAnimated() {
+    return this.mono.textContent === this.text && this.paren.textContent === "()";
   }
 
-  if (mouseIsOver === "true" || wasClicked === "true") {
-    if (parenthesisText.endsWith(")")) return;
-    if (parenthesisText === "" && monoText === originalTextFormatted)
-      state.mono.classList.add(colorClass);
-    if (monoText === originalTextFormatted) {
-      state.parenthesis.textContent += parenthesisText === "(" ? ")" : "(";
-      return;
-    }
-    state.mono.textContent += sansText.at(0) === " " ? "_" : sansText.at(0);
-    state.sans.textContent = sansText.substring(1);
-    return;
-  }
+  async runEventLoop() {
+    addEventListener("animationend", this.onanimationend);
+    this.elem.addEventListener("mouseover", this.onmouseover);
+    this.elem.addEventListener("mouseout", this.onmouseout);
+    this.elem.addEventListener("click", this.onclick);
 
-  if (parenthesisText != "") {
-    state.parenthesis.textContent = parenthesisText.substring(
-      0,
-      parenthesisText.length - 1,
-    );
-    return;
-  }
-  if (parenthesisText === "" && monoText === originalTextFormatted)
-    state.mono.classList.remove(colorClass);
-  if (monoText === "") return;
-  const lastChar = monoText.at(-1) === "_" ? " " : monoText.at(-1);
-  state.sans.textContent = lastChar + state.sans.textContent;
-  state.mono.textContent = monoText.substring(0, monoText.length - 1);
-}
-
-async function animateTerminalCommandText() {
-  const commandElement = document.querySelector(".terminal-cli-command");
-  commandElement.style.display = "block";
-  commandElement.classList.add("terminal-cli-command-animate");
-}
-
-/**
- *
- * @param {Array<string>} text
- */
-async function animateTerminalText(text) {
-  const terminalElement = document.querySelector(".terminal"),
-    textContainer = document.querySelector(".terminal-text-container"),
-    target = document
-      .querySelector(".terminal-animation-build-target")
-      .textContent.toLocaleLowerCase()
-      .replaceAll(" ", "_");
-  for (const line of text) {
-    const p = document.createElement("p");
-    p.innerText = line.replaceAll("{target}", target);
-    textContainer.appendChild(p);
-    textContainer.scrollTop = terminalElement.scrollHeight;
-    if (line.startsWith(":: ")) await new Promise((res) => setTimeout(res, 50));
-    else await new Promise((res) => setTimeout(res, 500));
-  }
-
-  document.querySelector(".loading-redirect").style.display = "initial";
-  if (NavLinkAnimationState.elementClicked)
-    window.location.assign(NavLinkAnimationState.elementClicked.href);
-}
-
-const mainNavLinks = document.querySelectorAll(".main-nav a");
-
-for (const elem of mainNavLinks) {
-  (async function () {
-    const state = new NavLinkAnimationState(elem);
     while (true) {
-      if (!NavLinkAnimationState.keepRunning) break;
-      await animateMainNavLink(elem, state);
+      if (this.clicked && this.fullyAnimated) return;
+      else if (NavLink.anyClicked && !this.clicked) {
+        this.elem.classList.add("hide-page-selector");
+        return;
+      }
+      this.animate();
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
-  })();
+  }
 
-  elem.addEventListener("mouseover", async (event) => {
-    event.currentTarget.setAttribute("mouseisover", "true");
-  });
+  animate() {
+    if (!NavLink.ready) return;
 
-  elem.addEventListener("mouseout", async (event) => {
-    event.currentTarget.setAttribute("mouseisover", "false");
-  });
+    const sans = this.sans.textContent,
+      mono = this.mono.textContent,
+      paren = this.paren.textContent,
+      formatted = this.text.replaceAll(" ", "_");
 
-  elem.addEventListener("click", async (event) => {
-    event.preventDefault();
-    event.currentTarget.setAttribute("wasclicked", "true");
-    NavLinkAnimationState.elementClicked = event.currentTarget;
-    document.querySelector(".terminal-animation-build-target").textContent =
-      event.currentTarget
-        .getAttribute("originalText")
+    if (this.clicked && this.fullyAnimated) return;
+
+    if (this.hovering || this.clicked) {
+      if (paren === "()") return;
+      if (paren === "" && mono === formatted) this.mono.classList.add(this.colorClass);
+      if (mono === formatted) {
+        this.paren.textContent += paren === "(" ? ")" : "(";
+        return;
+      }
+      this.mono.textContent += sans[0] === " " ? "_" : sans[0];
+      this.sans.textContent = sans.substring(1);
+      return;
+    }
+
+    if (paren != "") {
+      this.paren.textContent = paren.substring(0, paren.length - 1);
+      return;
+    }
+    if (paren === "" && mono === formatted) this.mono.classList.remove(this.colorClass);
+    if (mono === "") return;
+    const lastChar = mono.at(-1) === "_" ? " " : mono.at(-1);
+    this.sans.textContent = lastChar + this.sans.textContent;
+    this.mono.textContent = mono.substring(0, mono.length - 1);
+  }
+
+  /** @returns {EventCallback} */
+  get onmouseover() {
+    const proxy = this;
+    return () => {
+      proxy.hovering = true;
+    };
+  }
+
+  /** @returns {EventCallback} */
+  get onmouseout() {
+    const proxy = this;
+    return () => {
+      proxy.hovering = false;
+    };
+  }
+
+  /** @returns {EventCallback} */
+  get onclick() {
+    const proxy = this;
+    return (event) => {
+      event.preventDefault();
+      proxy.clicked = true;
+      NavLink.anyClicked = true;
+      NavLink.clickedElement = proxy.elem;
+
+      document.querySelector(".terminal-target").textContent = proxy.elem
+        .getAttribute("originaltext")
         .toLowerCase()
         .replaceAll(" ", "_");
 
-    const intersection = [];
-    mainNavLinks.forEach((x) => {
-      if (!Object.is(x, elem)) intersection.push(x);
-    });
+      document.querySelector(".terminal").classList.add("terminal-show");
+      this.elem.classList.add("animate");
+    };
+  }
 
-    for (const el of intersection) el.classList.add("main-nav-link-hide");
-    document.querySelector(".terminal").classList.add("terminal-animate");
-    elem.style["animation-play-state"] = "running";
-  });
+  /** @returns {EventCallback} */
+  get onanimationend() {
+    return (event) => {
+      if (NavLink.ready) return;
+      if (event.animationName === "nickname") NavLink.ready = true;
+    };
+  }
 }
 
-addEventListener("animationend", async (event) => {
-  if (event.animationName === "main-nav-link-hide") {
-    event.target.style.display = "none";
-    // document.querySelector(".main-nav-link-clicked").classList.remove("main-nav-link-clicked");
-  } else if (event.animationName === "terminal-showing") {
-    animateTerminalCommandText();
-  } else if (event.animationName === "terminal-cli-command-animate") {
-    animateTerminalText(await terminalTextArray);
+class Terminal {
+  static #text = fetch("terminal-text.txt")
+    .then((txt) => txt.text())
+    .then((txt) => txt.split("\n"));
+
+  static terminal = document.querySelector(".terminal");
+  static container = document.querySelector(".terminal-text-container");
+  static spinner = document.querySelector(".loading-redirect");
+  static command = document.querySelector(".terminal-command");
+
+  static async animateCommand() {
+    this.command.style.display = "block";
+    this.command.classList.add("terminal-command-show");
   }
+
+  static async animateText() {
+    const target = document
+      .querySelector(".terminal-target")
+      .textContent.toLowerCase()
+      .replaceAll(" ", "_");
+
+    for (const line of await this.#text) {
+      const p = document.createElement("p");
+      p.innerText = line.replaceAll("{target}", target);
+      this.container.appendChild(p);
+      this.container.scrollTop = this.terminal.scrollHeight;
+      if (line.startsWith(":: ")) await new Promise((res) => setTimeout(res, 50));
+      else await new Promise((res) => setTimeout(res, 500));
+    }
+
+    this.spinner.style.display = "initial";
+    if (NavLink.anyClicked) window.location.assign(NavLink.clickedElement.href);
+  }
+
+  static get onanimationend() {
+    const proxy = this;
+    /**
+     * @param {AnimationEvent} event
+     */
+    return (event) => {
+      switch (event.animationName) {
+        case "hide-page-selector":
+          event.target.style.display = "none";
+          break;
+        case "terminal-show":
+          proxy.animateCommand();
+          break;
+        case "terminal-command-show":
+          proxy.animateText();
+          break;
+      }
+    };
+  }
+}
+
+addEventListener("load", () => {
+  for (const selector of [".nickname", ".main-header", ".main-footer"])
+    document.querySelector(selector).classList.add("animate");
 });
+
+for (const elem of document.querySelectorAll(".page-selector"))
+  new NavLink(elem).runEventLoop();
+
+addEventListener("animationend", Terminal.onanimationend);

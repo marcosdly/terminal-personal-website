@@ -58,57 +58,43 @@
   }
 }
 
-@mixin nickname-animation(
-  $name,
-  $duration: var(--nickname-base-duration),
-  $delay: var(--nickname-base-delay)
-) {
-  animation-name: $name;
-  animation-duration: $duration;
-  animation-iteration-count: 1;
-  animation-delay: $delay;
-  animation-timing-function: ease;
-  animation-fill-mode: forwards;
-  animation-play-state: paused;
-}
-
-@mixin basic-animation($name, $duration, $delay: 0s) {
-  animation-name: $name;
-  animation-duration: $duration;
-  animation-iteration-count: 1;
-  animation-delay: $delay;
-  animation-timing-function: ease;
-  animation-fill-mode: forwards;
-  animation-direction: normal;
-  animation-play-state: running;
-}
+$main-duration: 0.5s;
+$main-delay: 1.5s;
 
 .nickname {
   filter: drop-shadow(0px 0px 70px rgba(0, 0, 0, 0.4));
-  @include nickname-animation(nickname-to-header);
+  animation: #{$main-duration} ease #{$main-delay} 1 normal forwards paused
+    nickname-to-header;
 }
 
 .main-footer {
-  @include nickname-animation(main-footer-appearing);
+  animation: #{$main-duration} ease #{$main-delay} 1 normal forwards paused
+    main-footer-appearing;
 }
 
 .main-header {
-  @include nickname-animation(main-header-resizing);
+  animation: #{$main-duration} ease #{$main-delay} 1 normal forwards paused
+    main-header-resizing;
 }
 
 .main-nav-link-hide {
-  @include basic-animation(main-nav-link-hide, var(--main-nav-link-hide-speed));
+  animation: #{$main-duration} ease 0s 1 normal forwards paused main-nav-link-hide;
 }
 
 .main-nav a {
-  @include nickname-animation(terminal-function, 0.3s, 0s);
+  animation: 0.3s ease 0s 1 normal forwards paused terminal-function;
 }
 
 .terminal-animate {
-  @include basic-animation(terminal-showing, 0.5s, var(--main-nav-link-hide-speed));
+  animation: #{$main-duration} ease #{$main-duration} 1 normal forwards running
+    terminal-showing;
 }
 
 .terminal-cli-command-animate {
   display: block;
-  @include basic-animation(terminal-cli-command-animate, 0.2s);
+  animation: 0.2s ease 0s 1 normal forwards running terminal-cli-command-animate;
+}
+
+.animate {
+  animation-play-state: running;
 }

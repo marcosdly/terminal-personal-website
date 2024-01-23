@@ -3,6 +3,19 @@
 import { FetchImage } from "../js/firebase/storage";
 import { Scroller } from "../js/customScroll";
 
+const content = document.querySelector("article > main");
+const contentOffsetter = document.querySelector("article > main > .scroll-ceiling");
+const scrollbar = document.querySelector("body > .scrollbar");
+const scrollbarIndicator = document.querySelector("body > .scrollbar > .actual-bar");
+
+const scroller = new Scroller(
+  content,
+  contentOffsetter,
+  scrollbar,
+  scrollbarIndicator,
+  { inverted: false },
+);
+
 class Carrousel {
   static indexAttrName = "data-which-photo";
   static remoteFileAttrName = "data-storage-filename";
@@ -39,48 +52,4 @@ class Carrousel {
 
 Carrousel.setup();
 
-const content = document.querySelector("article > main");
-const contentOffsetter = document.querySelector("article > main > .scroll-ceiling");
-const scrollbar = document.querySelector("body > .scrollbar");
-const scrollbarIndicator = document.querySelector("body > .scrollbar > .actual-bar");
-const scroller = new Scroller(content, contentOffsetter, { inverted: false });
-
-function scrollbarCalculate() {
-  const totalBarHeight = scroller.scrollable.offsetHeight * 0.4;
-  const contentSize =
-    scroller.scrollable.scrollHeight + Math.abs(scroller.scrollerOffset);
-  scrollbar.style.height = totalBarHeight + "px";
-
-  if (scroller.scrollable.clientHeight >= contentSize) {
-    scrollbarIndicator.style.height = totalBarHeight + "px";
-    scrollbarIndicator.style.marginTop = "0px";
-    return;
-  }
-
-  scrollbarIndicator.style.height =
-    totalBarHeight * (scroller.scrollable.clientHeight / contentSize) + "px";
-
-  if (scroller.scrollerOffset === 0) {
-    scrollbarIndicator.style.marginTop = "0px";
-    return;
-  }
-
-  // Max possible value of margin-top
-  const barMaxOffsetRange = scrollbar.offsetHeight - scrollbarIndicator.offsetHeight;
-  if (scroller.scroller.style.marginTop === "0px")
-    scrollbarIndicator.style.marginTop = "0px";
-  else if (scroller.scrollerOffset === -scroller.maxOffsetRange)
-    scrollbarIndicator.style.marginTop = barMaxOffsetRange + "px";
-  else
-    scrollbarIndicator.style.marginTop = `${
-      barMaxOffsetRange * (Math.abs(scroller.scrollerOffset) / scroller.maxOffsetRange)
-    }px`;
-}
-
-scroller.onscrollend = scrollbarCalculate;
-addEventListener("resize", scrollbarCalculate);
-content.addEventListener("wheel", scroller.onwheel);
-content.addEventListener("touchmove", scroller.ontouchmove);
-content.addEventListener("touchstart", scroller.ontouchstart);
-
-scrollbarCalculate();
+scroller.setup();

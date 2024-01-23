@@ -9,19 +9,35 @@
 export class Scroller {
   #lastTouchYBuffer = null;
   #deltaBuffer = null;
+  #scrollbarRatio = 0.4;
 
   /**
    * @param {Element} scrollable Element that will be scrolled (container)
    * @param {Element} scroller Element that allows the other to scroll (empty div on top)
+   * @param {Element} scrollbar Container for the scrollbar indicator object
+   * @param {Element} indicator Element that will indicate scroll progress
    * @param {{inverted: boolean}} options
    */
-  constructor(scrollable, scroller, options) {
+  constructor(scrollable, scroller, scrollbar, indicator, options) {
     this.scrollable = scrollable;
     this.scroller = scroller;
+    this.scrollbar = scrollbar;
+    this.indicator = indicator;
     this.inverted = options?.inverted ?? false;
     // 0 breaks code cause it means "can't scroll"
     this.scrollerOffset = 1e-4;
     this.unset();
+  }
+
+  /**
+   * Configure and run scrolling.
+   */
+  setup() {
+    addEventListener("resize", this.scrollbarUpdate);
+    this.scrollable.addEventListener("wheel", this.onwheel);
+    this.scrollable.addEventListener("touchmove", this.ontouchmove);
+    this.scrollable.addEventListener("touchstart", this.ontouchstart);
+    this.scrollbarUpdate();
   }
 
   /**
@@ -148,7 +164,46 @@ export class Scroller {
     return false;
   }
 
-  onscrollend = () => {};
+  /**
+   * Update position and size of both the scrollbar's container and indicator.
+   */
+  scrollbarUpdate() {
+    const totalHeight = this.scrollable.offsetHeight * this.#scrollbarRatio,
+      contentSize = this.scrollable.scrollHeight + Math.abs(this.scrollerOffset);
+
+    this.scrollbar.style.height = totalHeight + "px";
+
+    if (this.scrollable.clientHeight >= contentSize) {
+      this.indicator.style.height = totalHeight + "px";
+      this.indicator.style.marginTop = "0px";
+      return;
+    }
+
+    this.indicator.style.height =
+      totalHeight * (this.scrollable.clientHeight / contentSize) + "px";
+
+    if (this.scrollerOffset === 0) {
+      this.indicator.style.marginTop = "0px";
+      return;
+    }
+
+    // Max possible value of margin-top
+    const offsetRange = this.scrollbar.offsetHeight - this.indicator.offsetHeight;
+
+    if (this.scroller.style.marginTop === "0px") {
+      this.indicator.style.marginTop = "0px";
+      return;
+    }
+
+    if (this.scrollerOffset === -this.maxOffsetRange) {
+      this.indicator.style.marginTop = offsetRange + "px";
+      return;
+    }
+
+    this.indicator.style.marginTop = `${
+      offsetRange * (Math.abs(this.scrollerOffset) / this.maxOffsetRange)
+    }px`;
+  }
 
   /**
    * Scroll content.
@@ -163,12 +218,7 @@ export class Scroller {
       else this.unset();
     } else this.set(this.calc());
 
-    try {
-      this.onscrollend();
-    } catch (err) {
-      console.error("Specified 'onscrollend' callback is not callable.");
-      console.error(err);
-    }
+    this.scrollbarUpdate();
 
     this.delta = null;
   }

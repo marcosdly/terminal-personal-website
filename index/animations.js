@@ -166,18 +166,9 @@ class Terminal {
   }
 }
 
-function animateNickname() {
-  document.querySelector(".nickname").style["animation-play-state"] = "running";
-  document.querySelector(".main-header").style["animation-play-state"] = "running";
-}
-
-function animateFooter() {
-  document.querySelector(".main-footer").style["animation-play-state"] = "running";
-}
-
-addEventListener("load", (event) => {
-  animateNickname();
-  animateFooter();
+addEventListener("load", () => {
+  for (const selector of [".nickname", ".main-header", ".main-footer"])
+    document.querySelector(selector).style.animationPlayState = "running";
 });
 
 for (const elem of document.querySelectorAll(".main-nav a"))

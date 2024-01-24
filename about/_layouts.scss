@@ -1,0 +1,140 @@
+@mixin mobile-ui {
+  :root {
+    --photo-select-control-height: 1.5rem;
+    --photo-select-button-height: 1.15rem;
+    --p-font-size: 0.9rem;
+    --p-line-height: 1.2;
+    --p-margin-bottom: 0.5rem;
+    --photos-carrousel-radius: 0.5rem;
+
+    --article-header-height: calc(4vh + 2rem);
+    --personal-link-icon-size: calc(var(--article-header-height) * 0.3 + 0.4rem);
+
+    --article-width: 95vw;
+    --article-height: calc(100vh - 1rem);
+    --photos-carrousel-width: calc(var(--article-width) * 0.4);
+
+    --empty-border-width: calc((100vw - var(--article-width)) / 2);
+
+    --scrollbar-width: calc(var(--empty-border-width) * 0.65);
+  }
+
+  article {
+    width: var(--article-width);
+    height: var(--article-height);
+    overflow: hidden;
+  }
+
+  .personal-links {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: calc(var(--personal-link-icon-size) * 0.5);
+    width: var(--article-width);
+
+    > a {
+      margin: 0;
+      width: initial;
+      height: var(--personal-link-icon-size);
+    }
+  }
+
+  .name-links-header {
+    height: var(--article-header-height);
+    width: inherit;
+    margin: 0;
+    justify-content: center;
+    flex-direction: column;
+
+    > h1 {
+      font-size: calc(var(--article-header-height) * 0.05 + 1rem);
+    }
+  }
+
+  main {
+    height: calc(var(--article-height) - var(--article-header-height));
+
+    h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: var(--p-font-size);
+      line-height: var(--p-line-height);
+      margin-bottom: var(--p-margin-bottom);
+      letter-spacing: initial;
+    }
+
+    blockquote {
+      font-size: var(--p-font-size);
+      margin-bottom: var(--p-margin-bottom);
+      padding: var(--photos-carrousel-radius);
+      border-radius: var(--photos-carrousel-radius);
+
+      p {
+        text-align: center;
+      }
+
+      footer {
+        margin: 0;
+      }
+    }
+
+    .initial-capital {
+      /* vertically centralized, width is determined by font-size */
+      display: inline-flex;
+      align-items: center;
+      line-height: 0;
+
+      /* if 'float' property is set, having height of exactly N lines forces the
+      next to also reserve space */
+      height: calc(var(--p-font-size) * var(--p-line-height) * 3 - 1px);
+      font-size: calc(var(--p-font-size) * 3.2);
+    }
+  }
+
+  .synthesis-photos-container {
+    margin: 0;
+    box-sizing: border-box;
+    padding-right: 0.5rem;
+  }
+
+  .photos-carrousel {
+    width: var(--photos-carrousel-width);
+    height: calc(var(--photos-carrousel-width) * 1.4);
+
+    > .select {
+      /* prettier-ignore */
+      bottom: calc((
+        var(--photo-select-control-height) / 2 /* bottom at the middle */
+        +
+        var(--photo-select-button-height) / 2 /* centralized */
+        ) * -1 /* negative */
+      );
+    }
+  }
+
+  .photo-select-control {
+    height: var(--photo-select-control-height);
+  }
+
+  .synthesis-h2-title-photos-caption {
+    font-size: 0.9rem;
+  }
+
+  .scrollbar {
+    right: 0;
+    width: var(--scrollbar-width);
+    border-radius: var(--scrollbar-width) 0 0 var(--scrollbar-width);
+    background-color: #fff;
+
+    > .actual-bar {
+      border-radius: inherit;
+    }
+  }
+}
+
+@mixin desktop-ui {
+}

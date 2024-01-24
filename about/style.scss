@@ -1,6 +1,8 @@
 @use "style/colors";
 @use "style/misc";
 @use "style/longtext/about" as textstyle;
+@use "style/queries";
+@use "layouts";
 @use "sass:list";
 @use "sass:map";
 @use "sass:math";
@@ -22,6 +24,9 @@ $scrollbar-width: 0.5rem;
 
 :root {
   --main-h2-left-margin: 1rem;
+  --photos-carrousel-radius: 0.6rem;
+  --photo-select-button-height: 1rem;
+
   font-size: 16px;
 }
 
@@ -110,7 +115,7 @@ h2 > span.h2-inline-footnote {
 
 main {
   height: calc(100vh - #{$name-title-height});
-  width: $content-width;
+  width: inherit;
   overflow: hidden;
 
   > h2 {
@@ -188,8 +193,8 @@ main {
   .select {
     content: "";
     position: absolute;
-    width: $size;
-    height: $size;
+    width: var(--photo-select-button-height);
+    height: var(--photo-select-button-height);
     bottom: ($photos-caption-height - ($photos-caption-height / 2 - $size / 2)) * -1;
     background: #222;
     transition:
@@ -248,3 +253,11 @@ main {
   font-size: 1rem;
   margin-left: $photos-carrousel-radius;
 }
+
+@media all {
+  @include layouts.mobile-ui;
+}
+
+// @include queries.homepage-desktop-layout {
+//   @include layouts.desktop-ui;
+// }

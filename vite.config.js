@@ -39,7 +39,7 @@ export default vite.defineConfig(({ command, mode }) => {
       manifest: true,
       emptyOutDir: true,
       rollupOptions: {
-        input: ["index.html", "about/index.html", "./404/index.html"],
+        input: ["index.html", "about/index.html"],
         output: {
           entryFileNames: "[name]-[hash].js",
           chunkFileNames: "[name]-[hash].js",
@@ -61,7 +61,7 @@ export default vite.defineConfig(({ command, mode }) => {
 
   if (mode === "production") {
     config.logLevel = "silent";
-    build.minify = "terser";
+    config.build.minify = "terser";
   }
 
   return config;

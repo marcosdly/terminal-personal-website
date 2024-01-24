@@ -1,5 +1,6 @@
 @use "style/colors";
 @use "layouts";
+@use "style/queries";
 
 :root {
   font-size: 16px;
@@ -167,21 +168,8 @@ a:hover {
   @include layouts.mobile-ui;
 }
 
-/* prettier-ignore */
-@media
-  all and (
-    ((min-width: 800px) and (min-height: 500px))
-    or
-    ((min-width: 300px) and (min-height: 300px))
-  ) and (
-    (min-aspect-ratio: 1/0.5)
-    or (min-aspect-ratio: 0.5/1)
-    or (min-aspect-ratio: 4/3)
-    or (min-aspect-ratio: 3/4)
-  ) {
-
+@include queries.homepage-desktop-layout {
   @include layouts.desktop-ui;
-
 }
 
 @include colors.gruvbox;

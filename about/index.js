@@ -19,7 +19,7 @@ const scroller = new Scroller(
 class Carrousel {
   static indexAttrName = "data-which-photo";
   static remoteFileAttrName = "data-storage-filename";
-  static selects = document.querySelectorAll(".photos-carrousel > .select");
+  static selects = document.querySelectorAll(".select-container > .select");
   static items = document.querySelectorAll(".photos-carrousel > li");
 
   static setup() {

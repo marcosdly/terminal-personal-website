@@ -104,15 +104,20 @@
   .photos-carrousel {
     width: var(--photos-carrousel-width);
     height: calc(var(--photos-carrousel-width) * 1.4);
+  }
 
-    > .select {
-      /* prettier-ignore */
-      bottom: calc((
-        var(--photo-select-control-height) / 2 /* bottom at the middle */
-        +
-        var(--photo-select-button-height) / 2 /* centralized */
-        ) * -1 /* negative */
-      );
+  .select-container {
+    height: var(--photo-select-control-height);
+    width: calc(var(--photos-carrousel-width) * 0.5);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: calc(var(--photo-select-button-height) * 0.25);
+
+    .select {
+      position: initial;
+      bottom: initial;
     }
   }
 

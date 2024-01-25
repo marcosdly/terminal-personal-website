@@ -139,4 +139,57 @@
 }
 
 @mixin desktop-ui {
+  :root {
+    --photo-select-button-height: 1.15rem;
+    --article-width: 900px;
+    --scrollbar-width: 8px;
+    --photos-carrousel-height: calc(var(--photos-carrousel-width) * 1.4);
+    --scrollbar-position: calc(var(--empty-border-width) - var(--scrollbar-width) * 3);
+  }
+
+  .scrollbar {
+    right: var(--scrollbar-position);
+    border-radius: calc(var(--scrollbar-width) / 2);
+  }
+
+  .synthesis-photos-container {
+    margin-right: 1rem;
+    width: var(--photos-carrousel-width);
+  }
+
+  .photos-carrousel {
+    width: var(--photos-carrousel-width);
+    height: var(--photos-carrousel-height);
+  }
+
+  @media (max-width: 950px) {
+    :root {
+      --p-font-size: 1.05rem;
+      --p-line-height: 1.05;
+      --p-margin-bottom: 0.65rem;
+
+      --article-width: 90vw;
+
+      --scrollbar-position: calc(var(--scrollbar-width) / 2);
+
+      --photos-carrousel-width: calc(120px + var(--article-width) * 0.15 - 0.8rem);
+      --photo-select-control-height: calc(var(--photos-carrousel-height) * 0.1);
+      --photo-select-button-height: calc(
+        var(--photo-select-control-height) * 0.5 + 5px
+      );
+    }
+
+    .synthesis-photos-container {
+      padding-right: 1.2ch;
+    }
+
+    .select-container {
+      width: calc(var(--photos-carrousel-width) * 0.4);
+      column-gap: calc(var(--photo-select-button-height) * 0.4);
+    }
+
+    .synthesis-h2-title-photos-caption {
+      font-size: calc(var(--photo-select-control-height) * 0.5 + 0.25rem);
+    }
+  }
 }

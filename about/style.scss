@@ -51,19 +51,10 @@ body {
 
 .scrollbar {
   position: absolute;
-  right: calc((100vw - #{$content-width}) / 2 - #{$custom-scrollbar-offset});
-  width: $scrollbar-width;
-  background-color: #eee;
-  border-radius: calc($scrollbar-width / 2);
 
   > .actual-bar {
     background-color: #444;
-    border-radius: calc($scrollbar-width / 2);
   }
-}
-
-article {
-  width: $content-width;
 }
 
 h1,
@@ -81,40 +72,26 @@ h2 > span.h2-inline-footnote {
 .name-links-header {
   display: flex;
   align-items: center;
-  margin: 0 var(--main-h2-left-margin);
-  height: $name-title-height;
-
-  > h1 {
-    font-size: 2.5rem;
-  }
 }
 
-.personal-links {
-  margin-left: auto;
+.personal-links > a {
+  display: inline-block;
 
-  > a {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    margin-right: 5px;
+  > img {
+    display: inherit;
+    width: inherit;
+    height: inherit;
+    transition: filter 0.5s 0.1s linear;
+  }
 
-    > img {
-      display: inherit;
-      width: inherit;
-      height: inherit;
-      transition: filter 0.5s 0.1s linear;
-    }
-
-    @for $i from 1 through $amount-links {
-      &:nth-of-type(#{$i}) > img:hover {
-        filter: #{list.nth($gruvbox-filter, $i % $amount-links + 1)};
-      }
+  @for $i from 1 through $amount-links {
+    &:nth-of-type(#{$i}) > img:hover {
+      filter: #{list.nth($gruvbox-filter, $i % $amount-links + 1)};
     }
   }
 }
 
 main {
-  height: calc(100vh - #{$name-title-height});
   width: inherit;
   overflow: hidden;
 
@@ -154,10 +131,7 @@ main {
 }
 
 .photos-carrousel {
-  width: 305px;
-  height: 425px;
   position: relative;
-
   list-style: none;
   background-color: #222;
   border-radius: $photos-carrousel-radius;
@@ -193,7 +167,6 @@ main {
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  height: $photos-caption-height;
 
   > img {
     display: inline-block;
@@ -248,7 +221,6 @@ $gap: 0.8rem;
 .synthesis-h2-title-photos-caption {
   margin-right: auto;
   font-weight: normal;
-  font-size: 1rem;
   margin-left: $photos-carrousel-radius;
 }
 

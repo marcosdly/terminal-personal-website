@@ -22,14 +22,15 @@
 
 @mixin mobile-ui {
   :root {
-    --main-header-height: calc(6vh + 2.5rem);
-    --main-footer-height: calc(4vh + 1.5rem);
-    --main-nav-link-font-size: calc(20vw);
-    --main-nav-link-font-size-post-animation: calc(18vw);
+    --main-header-height: calc(30px + 2vh);
+    --main-footer-height: var(--main-header-height);
+    --main-footer-icon-size: calc(var(--main-footer-height) * 0.25 + 0.5rem);
+    --main-nav-link-font-size: 20vw;
+    --main-nav-link-font-size-post-animation: 18vw;
     --main-nav-link-margin-left: 0;
-    --full-terminal-width: calc(90vw);
-    --full-terminal-height: 250px;
+    --full-terminal-width: 90vw;
     --terminal-font-size: 11px;
+    --full-terminal-height: calc(15vh + var(--terminal-font-size) * 8);
   }
 
   .main-nav {
@@ -45,28 +46,37 @@
   .main-footer {
     justify-content: center;
     flex-direction: column-reverse;
-    height: unset;
+    row-gap: calc(var(--main-footer-height) * 0.01);
+    height: var(--main-footer-height);
   }
 
   .title {
     margin: 0;
-    font-size: 1.8rem;
-  }
-
-  .title-container {
-    margin-bottom: 0.5rem;
+    font-size: calc(var(--main-footer-icon-size) - 5px);
   }
 
   .links-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: center;
+    column-gap: var(--main-footer-icon-size);
     width: inherit;
-    margin-bottom: 0.4rem;
   }
 
   .links-container > a {
-    height: 2rem;
+    height: var(--main-footer-icon-size);
+  }
+
+  @media (min-height: 700px) {
+    :root {
+      --full-terminal-height: 300px;
+    }
+  }
+
+  @media (max-height: 300px) {
+    :root {
+      --full-terminal-height: 50px;
+    }
   }
 
   // @media (max-height: 550px), (max-width: 320px) {

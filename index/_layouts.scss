@@ -67,6 +67,23 @@
     height: var(--main-footer-icon-size);
   }
 
+  // Does not meet desktop's layout requirements, yet is not portrait oriented.
+  // This is meant for low resolutions with odd ratios, like 299x850. Too small
+  // to accommodate the terminal animation using the desktop layout and too wide
+  // to look good with either without tinkering.
+  // FIXME Turn media query values into scss variables.
+  @media (max-height: 300px) and (min-width: 300px) {
+    :root {
+      --main-nav-link-font-size: 2.5rem;
+      --main-nav-link-font-size-post-animation: 2rem;
+      --full-terminal-width: 180px;
+    }
+
+    .page-selector {
+      margin-bottom: 0.5rem;
+    }
+  }
+
   @media (min-height: 700px) {
     :root {
       --full-terminal-height: 300px;

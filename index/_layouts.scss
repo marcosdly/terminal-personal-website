@@ -28,7 +28,7 @@
     --main-nav-link-font-size: 20vw;
     --main-nav-link-font-size-post-animation: 18vw;
     --main-nav-link-margin-left: 0;
-    --full-terminal-width: 90vw;
+    --full-terminal-width: 95vw;
     --terminal-font-size: 11px;
     --full-terminal-height: calc(15vh + var(--terminal-font-size) * 8);
   }
@@ -36,11 +36,11 @@
   .main-nav {
     display: flex; // block
     align-items: center;
-    width: 100vw;
+    width: inherit;
   }
 
   .page-selector {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .main-footer {
@@ -53,6 +53,7 @@
   .title {
     margin: 0;
     font-size: calc(var(--main-footer-icon-size) - 5px);
+    text-wrap: nowrap;
   }
 
   .links-container {
@@ -61,6 +62,7 @@
     justify-content: center;
     column-gap: var(--main-footer-icon-size);
     width: inherit;
+    margin: 0;
   }
 
   .links-container > a {
@@ -78,10 +80,6 @@
       --main-nav-link-font-size-post-animation: 2rem;
       --full-terminal-width: 180px;
     }
-
-    .page-selector {
-      margin-bottom: 0.5rem;
-    }
   }
 
   @media (min-height: 700px) {
@@ -93,6 +91,55 @@
   @media (max-height: 300px) {
     :root {
       --full-terminal-height: 50px;
+    }
+  }
+
+  // Tried to be cheap on amount of HTML elements because it "seems more professional",
+  // I said to myself. Well, now the amount of CSS required to mimic the behavior of
+  // nesting divs increases exponentially the closer an element is from being a direct
+  // child of body. Have to admit how much that sucks, but at least I'm being forced to
+  // learn CSS trickery. Plus, refactoring code that looks "not thhaaatt bad" cripples
+  // me out of boredom.
+  @media (max-width: 150px), (max-width: 300px) and (max-height: 250px) {
+    :root {
+      --min-content-height: 450px;
+      --main-header-height: 40px;
+      --main-footer-height: var(--main-header-height);
+      --main-footer-icon-size: 18px;
+      --main-nav-link-font-size: 30px;
+      --main-nav-link-font-size-post-animation: 26px;
+      --main-nav-link-margin-left: 0;
+      --full-terminal-width: 130px;
+      --full-terminal-height: 100px;
+      --terminal-font-size: 10px;
+      --nickname-size: 145px;
+
+      /* prettier-ignore */
+      --main-nav-height: calc(
+        var(--min-content-height)
+        - var(--main-header-height)
+        - var(--main-footer-height)
+      );
+    }
+
+    .main-footer {
+      min-width: 150px;
+      position: static;
+    }
+
+    .main-header {
+      min-width: 150px;
+      min-height: calc(var(--main-header-height) + var(--main-nav-height));
+    }
+
+    .main-nav {
+      height: var(--main-nav-height);
+    }
+
+    @media (max-height: 450px) {
+      :root {
+        --min-content-height: 250px;
+      }
     }
   }
 

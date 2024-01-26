@@ -69,15 +69,15 @@
     height: 2rem;
   }
 
-  @media ((max-height: 550px) or (max-width: 320px)) {
-    :root {
-      --full-terminal-height: calc(30vh);
-    }
+  // @media (max-height: 550px), (max-width: 320px) {
+  //   :root {
+  //     --full-terminal-height: calc(30vh);
+  //   }
 
-    .main-footer .title {
-      font-size: 1.35rem;
-    }
-  }
+  //   .main-footer .title {
+  //     font-size: 1.35rem;
+  //   }
+  // }
 }
 
 @mixin desktop-ui {
@@ -135,8 +135,21 @@
   @media (max-width: 550px) and (max-height: 600px) {
     :root {
       --main-footer-height: 4vh;
-      --main-footer-icon-size: calc(var(--main-footer-height) * 0.5);
+      --main-footer-icon-size: calc(var(--main-footer-height) * 0.1 + 0.8rem);
       --main-footer-title-size: calc(var(--main-footer-height) * 0.4);
+    }
+
+    .links-container {
+      width: 40vw;
+      justify-content: center;
+      column-gap: var(--main-footer-icon-size);
+    }
+
+    .title {
+      width: 60vw;
+      margin: 0;
+      text-align: center;
+      font-size: var(--main-footer-icon-size);
     }
   }
 
